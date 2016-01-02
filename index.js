@@ -44,9 +44,11 @@ module.exports = function (h) {
         for (; i < parts.length; i++) {
           var pj = parts[i], pjs = pj[0]
           if (pjs === ATTR_VALUE) {
-            if (pj[1].length) cur[1][p[1]] += pj[1]
+            var sj = String(pj[1])
+            if (sj.length) cur[1][p[1]] += sj
           } else if (pjs === VAR && pj[1] === ATTR_VALUE) {
-            if (pj[2].length) cur[1][p[1]] += pj[2]
+            var sj = String(pj[2])
+            if (sj.length) cur[1][p[1]] += sj
           } else break
         }
       } else if (s === ATTR_KEY) {
