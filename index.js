@@ -11,7 +11,8 @@ module.exports = function (h) {
     for (var i = 0; i < strings.length; i++) {
       if (i < arglen - 1) {
         var arg = arguments[i+1]
-        var p = parse(strings[i]).concat([ VAR, state, arg ])
+        var p = parse(strings[i])
+        p.push([ VAR, state, arg ])
         parts.push.apply(parts, p)
       } else parts.push.apply(parts, parse(strings[i]))
     }
@@ -30,11 +31,27 @@ module.exports = function (h) {
         stack.push(c)
       } else if (s === ATTR_KEY && ns === ATTR_VALUE) {
         cur[1][p[1]] = np[1]
+        i++
+      } else if (s === ATTR_KEY && ns === VAR) {
+        cur[1][p[1]] = np[3]
+        i++
       } else if (s === ATTR_KEY) {
         cur[1][p[1]] = true
+      } else if (s === CLOSE) {
+        //...
+      } else if (s === VAR && p[1] === TEXT) {
+        if (Array.isArray(p[2])) {
+          cur[2].push.apply(cur[2], p[2])
+        } else {
+          cur[2].push(p[2])
+        }
+      } else if (s === TEXT) {
+        cur[2].push(p[1])
+      } else {
+        throw new Error('unhandled: ' + s)
       }
     }
-    return tree[2]
+    return tree[2][0]
 
     function parse (str) {
       var res = []
@@ -102,6 +119,10 @@ module.exports = function (h) {
         || state === ATTR_VALUE_DQ) {
           reg += c
         }
+      }
+      if (state === TEXT && reg.length) {
+        res.push([TEXT,reg])
+        reg = ''
       }
       return res
     }
