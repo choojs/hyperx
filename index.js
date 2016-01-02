@@ -18,17 +18,21 @@ module.exports = function (h) {
     }
 
     var tree = [null,{},[]]
-    var stack = [tree]
+    var stack = [[tree,-1]]
     for (var i = 0; i < parts.length; i++) {
-      var cur = stack[stack.length-1]
+      var cur = stack[stack.length-1][0]
       var p = parts[i], s = p[0]
       var np = parts[i+1], ns = np && np[0]
       if (s === OPEN && /^\//.test(p[1])) {
-        stack.pop()
+        var ix = stack[stack.length-1][1]
+        if (stack.length) {
+          stack.pop()
+          stack[stack.length-1][0][2][ix] = h(cur[0], cur[1], cur[2])
+        }
       } else if (s === OPEN) {
         var c = [p[1],{},[]]
         cur[2].push(c)
-        stack.push(c)
+        stack.push([c,cur[2].length-1])
       } else if (s === ATTR_KEY && ns === ATTR_VALUE) {
         cur[1][p[1]] = np[1]
         i++

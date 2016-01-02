@@ -12,4 +12,4 @@ var tree = hx`<div x=5>
     return hx`<b>${w}</b>\n`
   })}
 </div>`
-console.log(JSON.stringify(tree,null,2))
+console.log(tree.outerHTML)
