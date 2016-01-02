@@ -39,14 +39,14 @@ module.exports = function (h) {
         cur[2].push(c)
         stack.push([c,cur[2].length-1])
       } else if (s === ATTR_KEY && (ns === ATTR_VALUE || ns === VAR)) {
-        cur[1][p[1]] = String(np[ns === VAR ? 2 : 1])
+        cur[1][p[1]] = strfn(np[ns === VAR ? 2 : 1])
         i += 2
         for (; i < parts.length; i++) {
           var pj = parts[i], pjs = pj[0]
           if (pjs === ATTR_VALUE) {
-            cur[1][p[1]] += pj[1]
+            if (pj[1].length) cur[1][p[1]] += pj[1]
           } else if (pjs === VAR && pj[1] === ATTR_VALUE) {
-            cur[1][p[1]] += pj[2]
+            if (pj[2].length) cur[1][p[1]] += pj[2]
           } else break
         }
       } else if (s === ATTR_KEY) {
@@ -105,6 +105,8 @@ module.exports = function (h) {
           res.push([ATTR_KEY,reg])
           reg = ''
           state = ATTR_VALUE_W
+        } else if (state === ATTR_KEY) {
+          reg += c
         } else if (state === ATTR_KEY_W && c === '=') {
           state = ATTR_VALUE_W
         } else if (state === ATTR_KEY_W && !/\s/.test(c)) {
@@ -158,3 +160,9 @@ function quot (state) {
 
 var hasOwn = Object.prototype.hasOwnProperty
 function has (obj, key) { return hasOwn.call(obj, key) }
+
+function strfn (x) {
+  if (typeof x === 'function') return x
+  else if (typeof x === 'string') return x
+  else return String(x)
+}
