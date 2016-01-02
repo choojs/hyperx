@@ -7,6 +7,6 @@ var wow = [1,2,3]
 console.log(hx`<div>
   <h1>hello ${title}!</h1>
   ${wow.map(function (w) {
-    return `<b>${w}</b>\n`
+    return hx`<b>${w}</b>\n`
   })}
 </div>`)
