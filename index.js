@@ -12,7 +12,10 @@ module.exports = function (h) {
       if (i < arglen - 1) {
         var arg = arguments[i+1]
         var p = parse(strings[i])
-        p.push([ VAR, state, arg ])
+        var xstate = state
+        if (xstate === ATTR_VALUE_DQ) xstate = ATTR_VALUE
+        if (xstate === ATTR_VALUE_SQ) xstate = ATTR_VALUE
+        p.push([ VAR, xstate, arg ])
         parts.push.apply(parts, p)
       } else parts.push.apply(parts, parse(strings[i]))
     }
@@ -35,9 +38,18 @@ module.exports = function (h) {
         stack.push([c,cur[2].length-1])
       } else if (s === ATTR_KEY && ns === ATTR_VALUE) {
         cur[1][p[1]] = np[1]
+        for (var j = i+2; j < parts.length; j++) {
+          var pj = parts[j], pjs = pj[0]
+          if (pjs === ATTR_VALUE) {
+            cur[1][p[1]] += pj[1]
+          } else if (pjs === VAR && pj[1] === ATTR_VALUE) {
+            cur[1][p[1]] += pj[2]
+          } else break
+          i++
+        }
         i++
       } else if (s === ATTR_KEY && ns === VAR) {
-        cur[1][p[1]] = np[3]
+        cur[1][p[1]] = np[2]
         i++
       } else if (s === ATTR_KEY) {
         cur[1][p[1]] = true
@@ -126,6 +138,15 @@ module.exports = function (h) {
       }
       if (state === TEXT && reg.length) {
         res.push([TEXT,reg])
+        reg = ''
+      } else if (state === ATTR_VALUE && reg.length) {
+        res.push([ATTR_VALUE,reg])
+        reg = ''
+      } else if (state === ATTR_VALUE_DQ && reg.length) {
+        res.push([ATTR_VALUE,reg])
+        reg = ''
+      } else if (state === ATTR_VALUE_SQ && reg.length) {
+        res.push([ATTR_VALUE,reg])
         reg = ''
       }
       return res
