@@ -12,10 +12,12 @@ hyperscript-style API: `h(tagName, attrs, children)`.
 
 # compatability
 
-Template strings are available in:
+[Template strings][1] are available in:
 node 4+, chrome 41, firefox 34, edge, opera 28, safari 9
 
 If you're targeting these platforms, there's no need to use a transpiler!
+
+[1]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/template_strings
 
 # examples
 
@@ -115,4 +117,57 @@ function render (state) {
 }
 ```
 
+## react browser example
 
+``` js
+var React = require('react')
+var render = require('react-dom').render
+var hyperx = require('hyperx')
+var hx = hyperx(React.createElement)
+
+var App = React.createClass({
+  getInitialState: function () { return { n: 0 } },
+  render: function () {
+    return hx`<div>
+      <h1>clicked ${this.state.n} times</h1>
+      <button onClick=${this.handleClick}>click me!</button>
+    </div>`
+  },
+  handleClick: function () {
+    this.setState({ n: this.state.n + 1 })
+  }
+})
+render(React.createElement(App), document.querySelector('#content'))
+```
+
+# api
+
+```
+var hyperx = require('hyperx')
+```
+
+## var hx = hyperx(h)
+
+Return a tagged template function `hx` from a hyperscript-style factory function
+`h`.
+
+Values to use for `h`:
+
+* virtual-dom - `vdom.h`
+* react - `React.createElement`
+* hyperscript - hyperscript
+
+# prior art
+
+* http://www.2ality.com/2014/07/jsx-template-strings.html?m=1
+* http://facebook.github.io/jsx/#why-not-template-literals (respectfully disagree)
+
+# license
+
+BSD
+
+# install
+
+```
+npm install hyperx
+```
