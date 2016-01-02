@@ -1,7 +1,6 @@
-var concatmap = require('concat-map')
-var TEXT = 0, OPEN = 1, CLOSE = 2
-var ATTR = 3, ATTR_KEY = 4, ATTR_KEY_W = 5
-var ATTR_VALUE_W = 6, ATTR_VALUE = 7, ATTR_VALUE_SQ = 8, ATTR_VALUE_DQ = 9
+var VAR = 0, TEXT = 1, OPEN = 2, CLOSE = 3
+var ATTR = 4, ATTR_KEY = 5, ATTR_KEY_W = 6
+var ATTR_VALUE_W = 7, ATTR_VALUE = 8, ATTR_VALUE_SQ = 9, ATTR_VALUE_DQ = 10
 
 module.exports = function (h) {
   var state = TEXT, reg = ''
@@ -10,17 +9,13 @@ module.exports = function (h) {
     var arglen = arguments.length
     var parts = []
     for (var i = 0; i < strings.length; i++) {
-      /*
       if (i < arglen - 1) {
         var arg = arguments[i+1]
-        if (Array.isArray(arg)) arg = arg.join('')
-        parts.push(strings[i], arg)
-      } else parts.push(strings[i])
-      */
-      parts.push(strings[i])
+        var p = parse(strings[i])
+        parts.push(p, [ VAR, state, arg ])
+      } else parts.push(parse(strings[i]))
     }
-    var hparts = concatmap(parts, parse)
-    return hparts
+    return parts
   }
   function parse (str) {
     var res = []
