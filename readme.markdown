@@ -10,7 +10,7 @@ hyperx works with [virtual-dom](https://npmjs.com/package/virtual-dom),
 [hyperscript](https://npmjs.com/package/hyperscript), or any DOM builder with a
 hyperscript-style API: `h(tagName, attrs, children)`.
 
-# compatability
+# compatibility
 
 [Template strings][1] are available in:
 node 4+, chrome 41, firefox 34, edge, opera 28, safari 9
