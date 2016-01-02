@@ -16,6 +16,7 @@ module.exports = function (h) {
         var xstate = state
         if (xstate === ATTR_VALUE_DQ) xstate = ATTR_VALUE
         if (xstate === ATTR_VALUE_SQ) xstate = ATTR_VALUE
+        if (xstate === ATTR) xstate = ATTR_KEY
         p.push([ VAR, xstate, arg ])
         parts.push.apply(parts, p)
       } else parts.push.apply(parts, parse(strings[i]))
@@ -29,7 +30,7 @@ module.exports = function (h) {
       var np = parts[i+1], ns = np && np[0]
       if (s === OPEN && /^\//.test(p[1])) {
         var ix = stack[stack.length-1][1]
-        if (stack.length) {
+        if (stack.length > 1) {
           stack.pop()
           stack[stack.length-1][0][2][ix] = h(cur[0], cur[1], cur[2])
         }
@@ -37,24 +38,32 @@ module.exports = function (h) {
         var c = [p[1],{},[]]
         cur[2].push(c)
         stack.push([c,cur[2].length-1])
-      } else if (s === ATTR_KEY && (ns === ATTR_VALUE || ns === VAR)) {
-        cur[1][p[1]] = strfn(np[ns === VAR ? 2 : 1])
+      } else if ((s === ATTR_KEY || (s === VAR && p[1] === ATTR_KEY))
+      && (ns === ATTR_VALUE || ns === VAR)) {
+        var key = s === ATTR_KEY ? p[1] : p[2]
+        cur[1][key] = strfn(np[ns === VAR ? 2 : 1])
         i += 2
         for (; i < parts.length; i++) {
           var pj = parts[i], pjs = pj[0]
           if (pjs === ATTR_VALUE) {
             var sj = String(pj[1])
-            if (sj.length) cur[1][p[1]] += sj
+            if (sj.length) cur[1][key] += sj
           } else if (pjs === VAR && pj[1] === ATTR_VALUE) {
             var sj = String(pj[2])
-            if (sj.length) cur[1][p[1]] += sj
+            if (sj.length) cur[1][key] += sj
           } else break
         }
         i--
       } else if (s === ATTR_KEY) {
         cur[1][p[1]] = true
+      } else if (s === VAR && p[1] === ATTR_KEY) {
+        cur[1][p[2]] = true
       } else if (s === CLOSE) {
-        //...
+        if (selfClosing(cur[0]) && stack.length) {
+          var ix = stack[stack.length-1][1]
+          stack.pop()
+          stack[stack.length-1][0][2][ix] = h(cur[0], cur[1], cur[2])
+        }
       } else if (s === VAR && p[1] === TEXT) {
         if (Array.isArray(p[2][0])) {
           cur[2].push.apply(cur[2], p[2])
@@ -168,3 +177,10 @@ function strfn (x) {
   else if (typeof x === 'string') return x
   else return String(x)
 }
+
+var closeRE = RegExp('^(' + [
+  'area', 'base', 'basefont', 'bgsound', 'br', 'col', 'command', 'embed',
+  'frame', 'hr', 'img', 'input', 'isindex', 'keygen', 'link', 'meta', 'param',
+  'source', 'track', 'wbr'
+].join('|') + ')$')
+function selfClosing (tag) { return closeRE.test(tag) }
