@@ -4,21 +4,35 @@ var ATTR_VALUE_W = 7, ATTR_VALUE = 8
 var ATTR_VALUE_SQ = 9, ATTR_VALUE_DQ = 10
 
 module.exports = function (h) {
+  var cache = {}
   return function (strings) {
     var state = TEXT, reg = ''
     var arglen = arguments.length
     var parts = []
+    var key = strings.join('|')
+    var cached = has(cache, key) ? cache[key] : null
+    var cx = cached ? null : []
+
     for (var i = 0; i < strings.length; i++) {
       if (i < arglen - 1) {
         var arg = arguments[i+1]
-        var p = parse(strings[i])
-        var xstate = state
+        var p, xstate
+        if (cached) {
+          var c = cached[i]
+          p = c[0].slice()
+          xstate = c[1]
+        } else {
+          p = parse(strings[i])
+          xstate = state
+          cx.push([ p.slice(), state ])
+        }
         if (xstate === ATTR_VALUE_DQ) xstate = ATTR_VALUE
         if (xstate === ATTR_VALUE_SQ) xstate = ATTR_VALUE
         p.push([ VAR, xstate, arg ])
         parts.push.apply(parts, p)
       } else parts.push.apply(parts, parse(strings[i]))
     }
+    if (cx) cache[key] = cx
 
     var tree = [null,{},[]]
     var stack = [[tree,-1]]
@@ -153,3 +167,6 @@ module.exports = function (h) {
 function quot (state) {
   return state === ATTR_VALUE_SQ || state === ATTR_VALUE_DQ
 }
+
+var hasOwn = Object.prototype.hasOwnProperty
+function has (obj, key) { return hasOwn.call(obj, key) }
