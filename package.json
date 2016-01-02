@@ -1,0 +1,22 @@
+{
+  "name": "hyperx",
+  "version": "1.0.0",
+  "description": "tagged template string virtual dom builder",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "keywords": [
+    "jsx",
+    "virtual-dom",
+    "vdom",
+    "react",
+    "hyperscript"
+  ],
+  "author": "substack",
+  "license": "BSD",
+  "devDependencies": {
+  },
+  "dependencies": {
+  }
+}
