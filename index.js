@@ -8,7 +8,6 @@ module.exports = function (h) {
     var state = TEXT, reg = ''
     var arglen = arguments.length
     var parts = []
-    var key = strings.join('|')
 
     for (var i = 0; i < strings.length; i++) {
       if (i < arglen - 1) {
