@@ -1,6 +1,6 @@
-var hyperx = require('../../')
-var h = require('hyperscript')
-var hx = hyperx(h)
+var vdom = require('virtual-dom')
+var hyperx = require('../')
+var hx = hyperx(vdom.h)
 
 var title = 'world'
 var wow = [1,2,3]
@@ -12,4 +12,4 @@ var tree = hx`<div>
     return hx`<b>${w}</b>\n`
   })}
 </div>`
-console.log(tree.outerHTML)
+console.log(vdom.create(tree).toString())
