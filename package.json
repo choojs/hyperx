@@ -11,7 +11,10 @@
     "virtual-dom",
     "vdom",
     "react",
-    "hyperscript"
+    "hyperscript",
+    "template string",
+    "template",
+    "es6"
   ],
   "author": "substack",
   "license": "BSD",
@@ -20,5 +23,17 @@
     "tape": "^4.4.0",
     "virtual-dom": "^2.1.1"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "directories": {
+    "example": "example",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/substack/hyperx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/substack/hyperx/issues"
+  },
+  "homepage": "https://github.com/substack/hyperx#readme"
 }
