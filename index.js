@@ -50,6 +50,7 @@ module.exports = function (h) {
             if (sj.length) cur[1][p[1]] += sj
           } else break
         }
+        i--
       } else if (s === ATTR_KEY) {
         cur[1][p[1]] = true
       } else if (s === CLOSE) {

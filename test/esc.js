@@ -8,7 +8,7 @@ test('escape', function (t) {
   var tree = hx`<input type="text" value="${value}"></h1>`
   t.equal(
     vdom.create(tree).toString(),
-  `<input type="text" value="&quot;&gt;">`
+  `<input type="text" value="&quot;&gt;" />`
   )
   t.end()
 })
