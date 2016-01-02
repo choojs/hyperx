@@ -9,7 +9,7 @@ function render (state) {
     h('i', 'cool'),
     'wow'
   ].concat(state.wow.map(function (w, i) {
-    return h('b', w)
+    return h('b', {}, w)
   })))
 }
 

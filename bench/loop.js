@@ -5,7 +5,7 @@ var hx = hyperx(vdom.h)
 function render (state) {
   return hx`<div>
     <h1 y="ab${1+2}cd">hello ${state.title}!</h1>
-    ${hx`<i>cool</i>`}
+    <i>cool</i>
     wow
     ${state.wow.map(function (w, i) {
       return hx`<b>${w}</b>\n`
