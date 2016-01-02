@@ -50,8 +50,10 @@ module.exports = function (h) {
         for (; i < parts.length; i++) {
           if (parts[i][0] === ATTR_VALUE) {
             if (!cur[1][key]) cur[1][key] = strfn(parts[i][1])
+            else cur[1][key] += String(parts[i][1])
           } else if (parts[i][0] === VAR && parts[i][1] === ATTR_VALUE) {
             if (!cur[1][key]) cur[1][key] = strfn(parts[i][2])
+            else cur[1][key] += String(parts[i][2])
           } else {
             i--
             break
