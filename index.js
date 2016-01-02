@@ -40,7 +40,7 @@ module.exports = function (h) {
       } else if (s === CLOSE) {
         //...
       } else if (s === VAR && p[1] === TEXT) {
-        if (Array.isArray(p[2])) {
+        if (Array.isArray(p[2][0])) {
           cur[2].push.apply(cur[2], p[2])
         } else {
           cur[2].push(p[2])
