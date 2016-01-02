@@ -16,6 +16,7 @@ module.exports = function (h) {
         var xstate = state
         if (xstate === ATTR_VALUE_DQ) xstate = ATTR_VALUE
         if (xstate === ATTR_VALUE_SQ) xstate = ATTR_VALUE
+        if (xstate === ATTR_VALUE_W) xstate = ATTR_VALUE
         if (xstate === ATTR) xstate = ATTR_KEY
         p.push([ VAR, xstate, arg ])
         parts.push.apply(parts, p)
@@ -27,7 +28,6 @@ module.exports = function (h) {
     for (var i = 0; i < parts.length; i++) {
       var cur = stack[stack.length-1][0]
       var p = parts[i], s = p[0]
-      var np = parts[i+1], ns = np && np[0]
       if (s === OPEN && /^\//.test(p[1])) {
         var ix = stack[stack.length-1][1]
         if (stack.length > 1) {
@@ -38,22 +38,25 @@ module.exports = function (h) {
         var c = [p[1],{},[]]
         cur[2].push(c)
         stack.push([c,cur[2].length-1])
-      } else if ((s === ATTR_KEY || (s === VAR && p[1] === ATTR_KEY))
-      && (ns === ATTR_VALUE || ns === VAR)) {
-        var key = s === ATTR_KEY ? p[1] : p[2]
-        cur[1][key] = strfn(np[ns === VAR ? 2 : 1])
-        i += 2
+      } else if (s === ATTR_KEY || (s === VAR && p[1] === ATTR_KEY)) {
+        var key = ''
         for (; i < parts.length; i++) {
-          var pj = parts[i], pjs = pj[0]
-          if (pjs === ATTR_VALUE) {
-            var sj = String(pj[1])
-            if (sj.length) cur[1][key] += sj
-          } else if (pjs === VAR && pj[1] === ATTR_VALUE) {
-            var sj = String(pj[2])
-            if (sj.length) cur[1][key] += sj
+          if (parts[i][0] === ATTR_KEY) {
+            key += String(parts[i][1])
+          } else if (parts[i][0] === VAR && parts[i][1] === ATTR_KEY) {
+            key += String(parts[i][2])
           } else break
         }
-        i--
+        for (; i < parts.length; i++) {
+          if (parts[i][0] === ATTR_VALUE) {
+            if (!cur[1][key]) cur[1][key] = strfn(parts[i][1])
+          } else if (parts[i][0] === VAR && parts[i][1] === ATTR_VALUE) {
+            if (!cur[1][key]) cur[1][key] = strfn(parts[i][2])
+          } else {
+            i--
+            break
+          }
+        }
       } else if (s === ATTR_KEY) {
         cur[1][p[1]] = true
       } else if (s === VAR && p[1] === ATTR_KEY) {
@@ -158,6 +161,9 @@ module.exports = function (h) {
         reg = ''
       } else if (state === ATTR_VALUE_SQ && reg.length) {
         res.push([ATTR_VALUE,reg])
+        reg = ''
+      } else if (state === ATTR_KEY) {
+        res.push([ATTR_KEY,reg])
         reg = ''
       }
       return res
