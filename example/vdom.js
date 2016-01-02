@@ -8,7 +8,7 @@ var tree = hx`<div>
   <h1 y="ab${1+2}cd">hello ${title}!</h1>
   ${hx`<i>cool</i>`}
   wow
-  ${wow.map(function (w) {
+  ${wow.map(function (w, i) {
     return hx`<b>${w}</b>\n`
   })}
 </div>`
