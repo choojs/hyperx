@@ -85,6 +85,7 @@ module.exports = function (h) {
 
     function parse (str) {
       var res = []
+      if (state === ATTR_VALUE_W) state = ATTR
       for (var i = 0; i < str.length; i++) {
         var c = str.charAt(i)
         if (state === TEXT && c === '<') {
@@ -183,6 +184,7 @@ function has (obj, key) { return hasOwn.call(obj, key) }
 function strfn (x) {
   if (typeof x === 'function') return x
   else if (typeof x === 'string') return x
+  else if (x && typeof x === 'object') return x
   else return String(x)
 }
 
