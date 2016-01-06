@@ -81,6 +81,12 @@ module.exports = function (h) {
         throw new Error('unhandled: ' + s)
       }
     }
+    if (tree[2].length > 2
+    || (tree[2].length === 2 && /\S/.test(tree[2][1]))) {
+      throw new Error(
+        'multiple root elements must be wrapped in an enclosing tag'
+      )
+    }
     return tree[2][0]
 
     function parse (str) {
