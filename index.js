@@ -81,6 +81,11 @@ module.exports = function (h) {
         throw new Error('unhandled: ' + s)
       }
     }
+
+    if(tree[2].length > 1 && /\s/.test(tree[2][0])) {
+      tree[2].shift();
+    }
+
     if (tree[2].length > 2
     || (tree[2].length === 2 && /\S/.test(tree[2][1]))) {
       throw new Error(
