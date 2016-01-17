@@ -82,8 +82,8 @@ module.exports = function (h) {
       }
     }
 
-    if(tree[2].length > 1 && /\s/.test(tree[2][0])) {
-      tree[2].shift();
+    if (tree[2].length > 1 && /^\s*$/.test(tree[2][0])) {
+      tree[2].shift()
     }
 
     if (tree[2].length > 2
