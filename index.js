@@ -148,7 +148,7 @@ module.exports = function (h) {
           res.push([ATTR_VALUE,reg])
           reg = ''
           state = ATTR
-        } else if (state === ATTR_VALUE_SQ && c === '"') {
+        } else if (state === ATTR_VALUE_SQ && c === "'") {
           res.push([ATTR_VALUE,reg])
           reg = ''
           state = ATTR
