@@ -10,6 +10,12 @@ hyperx works with [virtual-dom](https://npmjs.com/package/virtual-dom),
 [hyperscript](https://npmjs.com/package/hyperscript), or any DOM builder with a
 hyperscript-style API: `h(tagName, attrs, children)`.
 
+You might also want to check out the [hyperxify][2] browserify transform to
+statically compile hyperx into javascript expressions to save sending the hyperx
+parser down the wire.
+
+[2]: https://npmjs.com/package/hyperxify
+
 # compatibility
 
 [Template strings][1] are available in:
