@@ -70,6 +70,8 @@ module.exports = function (h) {
           stack[stack.length-1][0][2][ix] = h(cur[0], cur[1], cur[2])
         }
       } else if (s === VAR && p[1] === TEXT) {
+        if (p[2] === undefined || p[2] === null) p[2] = ''
+        else if (!p[2]) p[2] = String(p[2])
         if (Array.isArray(p[2][0])) {
           cur[2].push.apply(cur[2], p[2])
         } else {
