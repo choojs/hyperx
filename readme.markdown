@@ -146,7 +146,7 @@ render(React.createElement(App), document.querySelector('#content'))
 var hyperx = require('hyperx')
 ```
 
-## var hx = hyperx(h)
+## var hx = hyperx(h, opts={})
 
 Return a tagged template function `hx` from a hyperscript-style factory function
 `h`.
@@ -156,6 +156,14 @@ Values to use for `h`:
 * virtual-dom - `vdom.h`
 * react - `React.createElement`
 * hyperscript - hyperscript
+
+Optionally provide:
+
+* `opts.concat(a, b)` - custom concatenation function to combine quasiliteral
+strings with expressions. The `h` factory function will receive the objects
+returned by the concatenation function and can make specific use of them. This
+is useful if you want to implement a pre-processor to generate javascript from
+hyperx syntax.
 
 # prior art
 
