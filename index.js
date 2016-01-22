@@ -3,7 +3,12 @@ var ATTR_KEY = 5, ATTR_KEY_W = 6
 var ATTR_VALUE_W = 7, ATTR_VALUE = 8
 var ATTR_VALUE_SQ = 9, ATTR_VALUE_DQ = 10
 
-module.exports = function (h) {
+module.exports = function (h, opts) {
+  if (!opts) opts = {}
+  var concat = opts.concat || function (a, b) {
+    return String(a) + String(b)
+  }
+
   return function (strings) {
     var state = TEXT, reg = ''
     var arglen = arguments.length
@@ -42,18 +47,18 @@ module.exports = function (h) {
         var key = ''
         for (; i < parts.length; i++) {
           if (parts[i][0] === ATTR_KEY) {
-            key += String(parts[i][1])
+            key = concat(key, parts[i][1])
           } else if (parts[i][0] === VAR && parts[i][1] === ATTR_KEY) {
-            key += String(parts[i][2])
+            key = concat(key, parts[i][2])
           } else break
         }
         for (; i < parts.length; i++) {
           if (parts[i][0] === ATTR_VALUE) {
             if (!cur[1][key]) cur[1][key] = strfn(parts[i][1])
-            else cur[1][key] += String(parts[i][1])
+            else cur[1][key] = concat(cur[1][key], parts[i][1])
           } else if (parts[i][0] === VAR && parts[i][1] === ATTR_VALUE) {
             if (!cur[1][key]) cur[1][key] = strfn(parts[i][2])
-            else cur[1][key] += String(parts[i][2])
+            else cur[1][key] = concat(cur[1][key], parts[i][2])
           } else {
             i--
             break
@@ -71,7 +76,7 @@ module.exports = function (h) {
         }
       } else if (s === VAR && p[1] === TEXT) {
         if (p[2] === undefined || p[2] === null) p[2] = ''
-        else if (!p[2]) p[2] = String(p[2])
+        else if (!p[2]) p[2] = concat('', p[2])
         if (Array.isArray(p[2][0])) {
           cur[2].push.apply(cur[2], p[2])
         } else {
@@ -185,6 +190,13 @@ module.exports = function (h) {
       return res
     }
   }
+
+  function strfn (x) {
+    if (typeof x === 'function') return x
+    else if (typeof x === 'string') return x
+    else if (x && typeof x === 'object') return x
+    else return concat('', x)
+  }
 }
 
 function quot (state) {
@@ -193,13 +205,6 @@ function quot (state) {
 
 var hasOwn = Object.prototype.hasOwnProperty
 function has (obj, key) { return hasOwn.call(obj, key) }
-
-function strfn (x) {
-  if (typeof x === 'function') return x
-  else if (typeof x === 'string') return x
-  else if (x && typeof x === 'object') return x
-  else return String(x)
-}
 
 var closeRE = RegExp('^(' + [
   'area', 'base', 'basefont', 'bgsound', 'br', 'col', 'command', 'embed',
