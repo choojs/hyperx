@@ -34,3 +34,24 @@ test('pre post key', function (t) {
   t.equal(vdom.create(tree).toString(), '<input type="text" />')
   t.end()
 })
+
+test('multiple keys', function (t) {
+  var props = {
+    type: 'text',
+    'data-special': 'true'
+  }
+  var key = 'data-'
+  var value = 'bar'
+  var tree = hx`<input ${props} ${key}foo=${value}>`
+  t.equal(vdom.create(tree).toString(), '<input type="text" data-special="true" data-foo="bar" />')
+  t.end()
+})
+
+test('multiple keys dont overwrite existing ones', function (t) {
+  var props = {
+    type: 'text'
+  }
+  var tree = hx`<input type="date" ${props}>`
+  t.equal(vdom.create(tree).toString(), '<input type="date" />')
+  t.end()
+})
