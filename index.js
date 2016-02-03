@@ -45,11 +45,20 @@ module.exports = function (h, opts) {
         stack.push([c,cur[2].length-1])
       } else if (s === ATTR_KEY || (s === VAR && p[1] === ATTR_KEY)) {
         var key = ''
+        var copyKey
         for (; i < parts.length; i++) {
           if (parts[i][0] === ATTR_KEY) {
             key = concat(key, parts[i][1])
           } else if (parts[i][0] === VAR && parts[i][1] === ATTR_KEY) {
-            key = concat(key, parts[i][2])
+            if (typeof parts[i][2] === 'object' && !key) {
+              for(copyKey in parts[i][2]) {
+                if (parts[i][2].hasOwnProperty(copyKey) && !cur[1][copyKey]) {
+                  cur[1][copyKey] = parts[i][2][copyKey]
+                }
+              }
+            } else {
+              key = concat(key, parts[i][2])
+            }
           } else break
         }
         for (; i < parts.length; i++) {
