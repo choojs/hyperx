@@ -236,7 +236,7 @@ var closeRE = RegExp('^(' + [
   'foreignObject', 'glyph', 'glyphRef', 'hkern', 'image', 'line',
   'linearGradient', 'marker', 'mask', 'metadata', 'missing-glyph', 'mpath',
   'path', 'pattern', 'polygon', 'polyline', 'radialGradient', 'rect',
-  'set', 'stop', 'switch', 'symbol', 'text', 'textPath', 'title', 'tref',
+  'set', 'stop', 'switch', 'symbol', 'textPath', 'tref',
   'tspan', 'use', 'view', 'vkern'
 ].join('|') + ')(?:[\.#][a-zA-Z0-9\u007F-\uFFFF_:-]+)*$')
 function selfClosing (tag) { return closeRE.test(tag) }
