@@ -37,7 +37,9 @@ module.exports = function (h, opts) {
         var ix = stack[stack.length-1][1]
         if (stack.length > 1) {
           stack.pop()
-          stack[stack.length-1][0][2][ix] = h(cur[0], cur[1], cur[2].length ? cur[2] : undefined)
+          stack[stack.length-1][0][2][ix] = h(
+            cur[0], cur[1], cur[2].length ? cur[2] : undefined
+          )
         }
       } else if (s === OPEN) {
         var c = [p[1],{},[]]
@@ -81,7 +83,9 @@ module.exports = function (h, opts) {
         if (selfClosing(cur[0]) && stack.length) {
           var ix = stack[stack.length-1][1]
           stack.pop()
-          stack[stack.length-1][0][2][ix] = h(cur[0], cur[1], cur[2].length ? cur[2] : undefined)
+          stack[stack.length-1][0][2][ix] = h(
+            cur[0], cur[1], cur[2].length ? cur[2] : undefined
+          )
         }
       } else if (s === VAR && p[1] === TEXT) {
         if (p[2] === undefined || p[2] === null) p[2] = ''
