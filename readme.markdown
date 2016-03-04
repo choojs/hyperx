@@ -27,6 +27,20 @@ If you're targeting these platforms, there's no need to use a transpiler!
 
 # examples
 
+## console.log example
+
+``` js
+var hyperx = require('hyperx')
+
+var convertTaggedTemplateOutputToDomBuilder = hyperx(function (tagName, attrs, children) {
+  console.log(tagName, attrs, children)
+})
+
+convertTaggedTemplateOutputToDomBuilder`<h1>hello world</h1>`
+
+// Running this produces: h1 {} [ 'hello world' ]
+```
+
 ## virtual-dom node example
 
 ``` js
