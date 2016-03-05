@@ -22,7 +22,7 @@ test('boolean attribute followed by normal attribute', function (t) {
 })
 
 test('boolean attribute preceded by normal attribute', function (t) {
-  var tree = hx`<video volume="50" volume></video>`
+  var tree = hx`<video volume="50" autoplay></video>`
   t.equal(vdom.create(tree).toString(), '<video volume="50" autoplay="autoplay"></video>')
   t.end()
 })

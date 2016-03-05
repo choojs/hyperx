@@ -78,7 +78,8 @@ module.exports = function (h, opts) {
             if (!cur[1][key]) cur[1][key] = strfn(parts[i][2])
             else cur[1][key] = concat(cur[1][key], parts[i][2])
           } else {
-            if (key.length && !cur[1][key] && parts[i][0] === CLOSE && i === j) {
+            if (key.length && !cur[1][key] && i === j
+            && (parts[i][0] === CLOSE || parts[i][0] === ATTR_BREAK)) {
               // https://html.spec.whatwg.org/multipage/infrastructure.html#boolean-attributes
               // empty string is falsy, not well behaved value in browser
               cur[1][key] = key.toLowerCase()
@@ -163,6 +164,7 @@ module.exports = function (h, opts) {
           state = ATTR_KEY
           reg = c
         } else if (state === ATTR && /\s/.test(c)) {
+          if (reg.length) res.push([ATTR_KEY,reg])
           res.push([ATTR_BREAK])
         } else if (state === ATTR_KEY && /\s/.test(c)) {
           res.push([ATTR_KEY,reg])
@@ -174,12 +176,15 @@ module.exports = function (h, opts) {
           state = ATTR_VALUE_W
         } else if (state === ATTR_KEY) {
           reg += c
-        } else if (state === ATTR_KEY_W && c === '=') {
+        } else if ((state === ATTR_KEY_W || state === ATTR) && c === '=') {
           res.push([ATTR_EQ])
           state = ATTR_VALUE_W
         } else if ((state === ATTR_KEY_W || state === ATTR) && !/\s/.test(c)) {
-          res.push([ATTR_EQ])
-          state = ATTR
+          res.push([ATTR_BREAK])
+          if (/[\w-]/.test(c)) {
+            reg += c
+            state = ATTR_KEY
+          } else state = ATTR
         } else if (state === ATTR_VALUE_W && c === '"') {
           state = ATTR_VALUE_DQ
         } else if (state === ATTR_VALUE_W && c === "'") {
