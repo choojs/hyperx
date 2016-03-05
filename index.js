@@ -4,6 +4,7 @@ var VAR = 0, TEXT = 1, OPEN = 2, CLOSE = 3, ATTR = 4
 var ATTR_KEY = 5, ATTR_KEY_W = 6
 var ATTR_VALUE_W = 7, ATTR_VALUE = 8
 var ATTR_VALUE_SQ = 9, ATTR_VALUE_DQ = 10
+var ATTR_EQ = 11, ATTR_BREAK = 12
 
 module.exports = function (h, opts) {
   h = attrToProp(h)
@@ -56,7 +57,7 @@ module.exports = function (h, opts) {
             key = concat(key, parts[i][1])
           } else if (parts[i][0] === VAR && parts[i][1] === ATTR_KEY) {
             if (typeof parts[i][2] === 'object' && !key) {
-              for(copyKey in parts[i][2]) {
+              for (copyKey in parts[i][2]) {
                 if (parts[i][2].hasOwnProperty(copyKey) && !cur[1][copyKey]) {
                   cur[1][copyKey] = parts[i][2][copyKey]
                 }
@@ -66,15 +67,20 @@ module.exports = function (h, opts) {
             }
           } else break
         }
+        if (parts[i][0] === ATTR_EQ) i++
+        var j = i
         for (; i < parts.length; i++) {
-          if (parts[i][0] === ATTR_VALUE) {
+          if (parts[i][0] === ATTR_VALUE || parts[i][0] === ATTR_KEY) {
             if (!cur[1][key]) cur[1][key] = strfn(parts[i][1])
             else cur[1][key] = concat(cur[1][key], parts[i][1])
-          } else if (parts[i][0] === VAR && parts[i][1] === ATTR_VALUE) {
+          } else if (parts[i][0] === VAR
+          && (parts[i][1] === ATTR_VALUE || parts[i][1] === ATTR_KEY)) {
             if (!cur[1][key]) cur[1][key] = strfn(parts[i][2])
             else cur[1][key] = concat(cur[1][key], parts[i][2])
           } else {
-            i--
+            if (key.length && !cur[1][key] && parts[i][0] === CLOSE && i === j) {
+              cur[1][key] = ''
+            }
             break
           }
         }
@@ -100,6 +106,8 @@ module.exports = function (h, opts) {
         }
       } else if (s === TEXT) {
         cur[2].push(p[1])
+      } else if (s === ATTR_EQ || s === ATTR_BREAK) {
+        // no-op
       } else {
         throw new Error('unhandled: ' + s)
       }
@@ -117,7 +125,7 @@ module.exports = function (h, opts) {
     }
     if (Array.isArray(tree[2][0]) && typeof tree[2][0][0] === 'string'
     && Array.isArray(tree[2][0][2]) && tree[2][0][2].length === 0) {
-      tree[2][0] = h(tree[2][0], tree[2][1], tree[2][2])
+      tree[2][0] = h(tree[2][0][0], tree[2][0][1], tree[2][0][2])
     }
     return tree[2][0]
 
@@ -152,38 +160,41 @@ module.exports = function (h, opts) {
         } else if (state === ATTR && /[\w-]/.test(c)) {
           state = ATTR_KEY
           reg = c
+        } else if (state === ATTR && /\s/.test(c)) {
+          res.push([ATTR_BREAK])
         } else if (state === ATTR_KEY && /\s/.test(c)) {
           res.push([ATTR_KEY,reg])
           reg = ''
           state = ATTR_KEY_W
         } else if (state === ATTR_KEY && c === '=') {
-          res.push([ATTR_KEY,reg])
+          res.push([ATTR_KEY,reg],[ATTR_EQ])
           reg = ''
           state = ATTR_VALUE_W
         } else if (state === ATTR_KEY) {
           reg += c
         } else if (state === ATTR_KEY_W && c === '=') {
+          res.push([ATTR_EQ])
           state = ATTR_VALUE_W
-        } else if (state === ATTR_KEY_W && !/\s/.test(c)) {
+        } else if ((state === ATTR_KEY_W || state === ATTR) && !/\s/.test(c)) {
+          res.push([ATTR_EQ])
           state = ATTR
-          i--
         } else if (state === ATTR_VALUE_W && c === '"') {
           state = ATTR_VALUE_DQ
         } else if (state === ATTR_VALUE_W && c === "'") {
           state = ATTR_VALUE_SQ
         } else if (state === ATTR_VALUE_DQ && c === '"') {
-          res.push([ATTR_VALUE,reg])
+          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
           reg = ''
           state = ATTR
         } else if (state === ATTR_VALUE_SQ && c === "'") {
-          res.push([ATTR_VALUE,reg])
+          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
           reg = ''
           state = ATTR
         } else if (state === ATTR_VALUE_W && !/\s/.test(c)) {
           state = ATTR_VALUE
           i--
         } else if (state === ATTR_VALUE && /\s/.test(c)) {
-          res.push([ATTR_VALUE,reg])
+          res.push([ATTR_BREAK],[ATTR_VALUE,reg])
           reg = ''
           state = ATTR
         } else if (state === ATTR_VALUE || state === ATTR_VALUE_SQ
