@@ -51,6 +51,7 @@ module.exports = function (h, opts) {
       } else if (s === ATTR_KEY || (s === VAR && p[1] === ATTR_KEY)) {
         var key = ''
         var copyKey
+        var isBoolean = true
         for (; i < parts.length; i++) {
           if (parts[i][0] === ATTR_KEY) {
             key = concat(key, parts[i][1])
@@ -64,22 +65,26 @@ module.exports = function (h, opts) {
             } else {
               key = concat(key, parts[i][2])
             }
+            isBoolean = false
           } else break
         }
         for (; i < parts.length; i++) {
           if (parts[i][0] === ATTR_VALUE) {
             if (!cur[1][key]) cur[1][key] = strfn(parts[i][1])
             else cur[1][key] = concat(cur[1][key], parts[i][1])
+            isBoolean = false
           } else if (parts[i][0] === VAR && parts[i][1] === ATTR_VALUE) {
             if (!cur[1][key]) cur[1][key] = strfn(parts[i][2])
             else cur[1][key] = concat(cur[1][key], parts[i][2])
+            isBoolean = false
           } else {
+            if (isBoolean) {
+              cur[1][key] = 'true'
+            }
             i--
             break
           }
         }
-      } else if (s === ATTR_KEY) {
-        cur[1][p[1]] = true
       } else if (s === VAR && p[1] === ATTR_KEY) {
         cur[1][p[2]] = true
       } else if (s === CLOSE) {
