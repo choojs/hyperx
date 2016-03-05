@@ -35,6 +35,13 @@ test('pre post key', function (t) {
   t.end()
 })
 
+test('boolean key', function (t) {
+  var key = 'checked'
+  var tree = hx`<input type="checkbox" ${key}>`
+  t.equal(vdom.create(tree).toString(), '<input type="checkbox" checked />')
+  t.end()
+})
+
 test('multiple keys', function (t) {
   var props = {
     type: 'text',
