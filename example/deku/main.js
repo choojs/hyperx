@@ -1,10 +1,8 @@
-var dom = require('deku').dom
-var element = require('deku').element
-var createRenderer = dom.createRenderer
+var deku = require('deku')
 var hyperx = require('../..')
-var hx = hyperx(element)
+var hx = hyperx(deku.element)
 
-var render = createRenderer(document.querySelector('#content'))
+var render = deku.createApp(document.querySelector('#content'))
 
 var state = {
   times: 0
