@@ -4,7 +4,8 @@
   "description": "tagged template string virtual dom builder",
   "main": "index.js",
   "scripts": {
-    "test": "tape test/*.js"
+    "test": "tape test/*.js",
+    "coverage": "covert test/*.js"
   },
   "keywords": [
     "jsx",
@@ -19,6 +20,7 @@
   "author": "substack",
   "license": "BSD",
   "devDependencies": {
+    "covert": "^1.1.0",
     "hyperscript": "^1.4.7",
     "tape": "^4.4.0",
     "virtual-dom": "^2.1.1"
