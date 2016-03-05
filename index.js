@@ -115,6 +115,10 @@ module.exports = function (h, opts) {
         'multiple root elements must be wrapped in an enclosing tag'
       )
     }
+    if (Array.isArray(tree[2][0]) && typeof tree[2][0][0] === 'string'
+    && Array.isArray(tree[2][0][2]) && tree[2][0][2].length === 0) {
+      tree[2][0] = h(tree[2][0], tree[2][1], tree[2][2])
+    }
     return tree[2][0]
 
     function parse (str) {
