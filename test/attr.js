@@ -8,3 +8,9 @@ test('class', function (t) {
   t.equal(vdom.create(tree).toString(), '<div class="wow"></div>')
   t.end()
 })
+
+test('boolean attribute', function (t) {
+  var tree = hx`<video autoplay />`
+  t.equal(vdom.create(tree).toString(), '<video autoplay />')
+  t.end()
+})
