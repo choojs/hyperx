@@ -23,7 +23,9 @@
     "tape": "^4.4.0",
     "virtual-dom": "^2.1.1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "hyperscript-attribute-to-property": "^1.0.0"
+  },
   "directories": {
     "example": "example",
     "test": "test"
