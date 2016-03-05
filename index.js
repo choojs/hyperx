@@ -79,7 +79,9 @@ module.exports = function (h, opts) {
             else cur[1][key] = concat(cur[1][key], parts[i][2])
           } else {
             if (key.length && !cur[1][key] && parts[i][0] === CLOSE && i === j) {
-              cur[1][key] = ''
+              // https://html.spec.whatwg.org/multipage/infrastructure.html#boolean-attributes
+              // empty string is falsy, not well behaved value in browser
+              cur[1][key] = key.toLowerCase()
             }
             break
           }
@@ -124,7 +126,7 @@ module.exports = function (h, opts) {
       )
     }
     if (Array.isArray(tree[2][0]) && typeof tree[2][0][0] === 'string'
-    && Array.isArray(tree[2][0][2]) && tree[2][0][2].length === 0) {
+    && Array.isArray(tree[2][0][2])) {
       tree[2][0] = h(tree[2][0][0], tree[2][0][1], tree[2][0][2])
     }
     return tree[2][0]

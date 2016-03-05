@@ -11,6 +11,6 @@ test('class', function (t) {
 
 test('boolean attribute', function (t) {
   var tree = hx`<video autoplay></video>`
-  t.equal(vdom.create(tree).toString(), '<video autoplay=""></video>')
+  t.equal(vdom.create(tree).toString(), '<video autoplay="autoplay"></video>')
   t.end()
 })
