@@ -14,3 +14,15 @@ test('boolean attribute', function (t) {
   t.equal(vdom.create(tree).toString(), '<video autoplay="autoplay"></video>')
   t.end()
 })
+
+test('boolean attribute followed by normal attribute', function (t) {
+  var tree = hx`<video autoplay volume="50"></video>`
+  t.equal(vdom.create(tree).toString(), '<video autoplay="autoplay" volume="50"></video>')
+  t.end()
+})
+
+test('boolean attribute preceded by normal attribute', function (t) {
+  var tree = hx`<video volume="50" volume></video>`
+  t.equal(vdom.create(tree).toString(), '<video volume="50" autoplay="autoplay"></video>')
+  t.end()
+})
