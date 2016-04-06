@@ -253,7 +253,7 @@ var closeRE = RegExp('^(' + [
   'feBlend', 'feColorMatrix', 'feComponentTransfer', 'feComposite',
   'feConvolveMatrix', 'feDiffuseLighting', 'feDisplacementMap',
   'feDistantLight', 'feFlood', 'feFuncA', 'feFuncB', 'feFuncG', 'feFuncR',
-  'feGaussianBlur', 'feImage', 'feMerge', 'feMergeNode', 'feMorphology',
+  'feGaussianBlur', 'feImage', 'feMergeNode', 'feMorphology',
   'feOffset', 'fePointLight', 'feSpecularLighting', 'feSpotLight', 'feTile',
   'feTurbulence', 'font-face-format', 'font-face-name', 'font-face-uri',
   'glyph', 'glyphRef', 'hkern', 'image', 'line', 'missing-glyph', 'mpath',
