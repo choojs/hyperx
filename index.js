@@ -201,7 +201,7 @@ module.exports = function (h, opts) {
           state = ATTR_VALUE
           i--
         } else if (state === ATTR_VALUE && /\s/.test(c)) {
-          res.push([ATTR_BREAK],[ATTR_VALUE,reg])
+          res.push([ATTR_VALUE,reg],[ATTR_BREAK])
           reg = ''
           state = ATTR
         } else if (state === ATTR_VALUE || state === ATTR_VALUE_SQ
