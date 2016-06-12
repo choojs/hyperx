@@ -26,3 +26,39 @@ test('boolean attribute preceded by normal attribute', function (t) {
   t.equal(vdom.create(tree).toString(), '<video volume="50" autoplay="autoplay"></video>')
   t.end()
 })
+
+test('unquoted attribute', function (t) {
+  var tree = hx`<div class=test></div>`
+  t.equal(vdom.create(tree).toString(), '<div class="test"></div>')
+  t.end()
+})
+
+test('unquoted attribute preceded by boolean attribute', function (t) {
+  var tree = hx`<div hidden dir=ltr></div>`
+  t.equal(vdom.create(tree).toString(), '<div hidden="hidden" dir="ltr"></div>')
+  t.end()
+})
+
+test('unquoted attribute succeeded by boolean attribute', function (t) {
+  var tree = hx`<div dir=ltr hidden></div>`
+  t.equal(vdom.create(tree).toString(), '<div dir="ltr" hidden="hidden"></div>')
+  t.end()
+})
+
+test('unquoted attribute preceded by normal attribute', function (t) {
+  var tree = hx`<div id="test" class=test></div>`
+  t.equal(vdom.create(tree).toString(), '<div id="test" class="test"></div>')
+  t.end()
+})
+
+test('unquoted attribute succeeded by normal attribute', function (t) {
+  var tree = hx`<div id=test class="test"></div>`
+  t.equal(vdom.create(tree).toString(), '<div id="test" class="test"></div>')
+  t.end()
+})
+
+test('consecutive unquoted attributes', function (t) {
+  var tree = hx`<div id=test class=test></div>`
+  t.equal(vdom.create(tree).toString(), '<div id="test" class="test"></div>')
+  t.end()
+})
