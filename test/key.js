@@ -1,7 +1,7 @@
 var test = require('tape')
 var vdom = require('virtual-dom')
 var hyperx = require('../')
-var hx = hyperx(vdom.h)
+var hx = hyperx(vdom.h, {vdom: true})
 
 test('key', function (t) {
   var key = 'type'
@@ -50,8 +50,8 @@ test('multiple keys', function (t) {
   }
   var key = 'data-'
   var value = 'bar'
-  var tree = hx`<input ${props} ${key}foo=${value}>`
-  t.equal(vdom.create(tree).toString(), '<input type="text" data-special="true" data-foo="bar" />')
+  var tree = hx`<input ${props} ${key}foo=${value} data-bar="baz">`
+  t.equal(vdom.create(tree).toString(), '<input type="text" data-special="true" data-foo="bar" data-bar="baz" />')
   t.end()
 })
 

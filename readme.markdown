@@ -186,6 +186,9 @@ returned by the concatenation function and can make specific use of them. This
 is useful if you want to implement a pre-processor to generate javascript from
 hyperx syntax.
 
+* `opts.vdom` - pass `true` when you are using virtual-dom. this fixes issues using
+data-\*, aria-\* and passing style as a string. see [this issue](https://github.com/substack/hyperx/issues/28)  
+
 # prior art
 
 * http://www.2ality.com/2014/07/jsx-template-strings.html?m=1

@@ -9,6 +9,9 @@ var ATTR_EQ = 11, ATTR_BREAK = 12
 module.exports = function (h, opts) {
   h = attrToProp(h)
   if (!opts) opts = {}
+
+  if (opts.vdom) {h = fixVdom(h)}
+
   var concat = opts.concat || function (a, b) {
     return String(a) + String(b)
   }
@@ -261,3 +264,21 @@ var closeRE = RegExp('^(' + [
   'vkern'
 ].join('|') + ')(?:[\.#][a-zA-Z0-9\u007F-\uFFFF_:-]+)*$')
 function selfClosing (tag) { return closeRE.test(tag) }
+
+function fixVdom (h) {
+  return function (tagName, props, children) {
+
+    if (!props.attributes) props.attributes = {}
+
+    Object.keys(props).forEach(function (key) {
+      var isDataAria = /^(data|aria)-/.test(key)
+      var isStyleString = key === 'style' && typeof props[key] === 'string'
+      if (isDataAria || isStyleString) {
+        props.attributes[key] = props[key]
+        delete props[key]
+      }
+    })
+
+    return h(tagName, props, children)
+  }
+}
