@@ -250,7 +250,7 @@ var closeRE = RegExp('^(' + [
   'source', 'track', 'wbr',
   // SVG TAGS
   'animate', 'animateTransform', 'circle', 'cursor', 'desc', 'ellipse',
-  'feBlend', 'feColorMatrix', 'feComponentTransfer', 'feComposite',
+  'feBlend', 'feColorMatrix', 'feComposite',
   'feConvolveMatrix', 'feDiffuseLighting', 'feDisplacementMap',
   'feDistantLight', 'feFlood', 'feFuncA', 'feFuncB', 'feFuncG', 'feFuncR',
   'feGaussianBlur', 'feImage', 'feMergeNode', 'feMorphology',
