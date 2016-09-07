@@ -1,5 +1,6 @@
 var test = require('tape')
 var vdom = require('virtual-dom')
+var hyperscript = require('hyperscript')
 var hyperx = require('../')
 var hx = hyperx(vdom.h)
 
@@ -18,6 +19,15 @@ test('undefined attribute value', function (t) {
 test('empty string attribute value', function (t) {
   var tree = hx`<div data-meh=${''}></div>`
   t.equal(vdom.create(tree).toString(), '<div data-meh=""></div>')
+  t.end()
+})
+
+// running this test with hyperscript because it
+// breaks with virtual-dom (with "str.replace is not a function")
+test('false attribute value', function (t) {
+  var hx = hyperx(hyperscript)
+  var tree = hx`<div data-meh=${false}></div>`
+  t.equal(tree.outerHTML, '<div data-meh=""></div>')
   t.end()
 })
 
