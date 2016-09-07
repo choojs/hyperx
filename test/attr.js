@@ -9,6 +9,24 @@ test('class', function (t) {
   t.end()
 })
 
+test('undefined attribute value', function (t) {
+  var tree = hx`<div data-meh=${undefined}></div>`
+  t.equal(vdom.create(tree).toString(), '<div></div>')
+  t.end()
+})
+
+test('empty string attribute value', function (t) {
+  var tree = hx`<div data-meh=${''}></div>`
+  t.equal(vdom.create(tree).toString(), '<div data-meh=""></div>')
+  t.end()
+})
+
+test('null attribute value', function (t) {
+  var tree = hx`<div data-meh=${null}></div>`
+  t.equal(vdom.create(tree).toString(), '<div></div>')
+  t.end()
+})
+
 test('boolean attribute', function (t) {
   var tree = hx`<video autoplay></video>`
   t.equal(vdom.create(tree).toString(), '<video autoplay="autoplay"></video>')
