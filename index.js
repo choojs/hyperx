@@ -75,7 +75,9 @@ module.exports = function (h, opts) {
             else cur[1][key] = concat(cur[1][key], parts[i][1])
           } else if (parts[i][0] === VAR
           && (parts[i][1] === ATTR_VALUE || parts[i][1] === ATTR_KEY)) {
-            if (!cur[1][key]) cur[1][key] = strfn(parts[i][2])
+            if (!cur[1][key])
+              if (parts[i][1] === ATTR_KEY) cur[1][key] = strfn(parts[i][2])
+              else cur[1][key] = parts[i][2]
             else cur[1][key] = concat(cur[1][key], parts[i][2])
           } else {
             if (key.length && !cur[1][key] && i === j
