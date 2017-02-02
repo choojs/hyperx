@@ -62,3 +62,15 @@ test('consecutive unquoted attributes', function (t) {
   t.equal(vdom.create(tree).toString(), '<div id="test" class="test"></div>')
   t.end()
 })
+
+test('strange leading character attributes', function (t) {
+  var tree = hx`<div @click='test' :href='/foo'></div>`
+  t.equal(vdom.create(tree).toString(), '<div @click="test" :href="/foo"></div>')
+  t.end()
+})
+
+test('strange inbetween character attributes', function (t) {
+  var tree = hx`<div f@o='bar' b&z='qux'></div>`
+  t.equal(vdom.create(tree).toString(), `<div f@o="bar" b&z="qux"></div>`)
+  t.end()
+})
