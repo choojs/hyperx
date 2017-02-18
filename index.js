@@ -5,6 +5,7 @@ var ATTR_KEY = 5, ATTR_KEY_W = 6
 var ATTR_VALUE_W = 7, ATTR_VALUE = 8
 var ATTR_VALUE_SQ = 9, ATTR_VALUE_DQ = 10
 var ATTR_EQ = 11, ATTR_BREAK = 12
+var COMMENT = 13
 
 module.exports = function (h, opts) {
   h = attrToProp(h)
@@ -141,7 +142,7 @@ module.exports = function (h, opts) {
           if (reg.length) res.push([TEXT, reg])
           reg = ''
           state = OPEN
-        } else if (c === '>' && !quot(state)) {
+        } else if (c === '>' && !quot(state) && state !== COMMENT) {
           if (state === OPEN) {
             res.push([OPEN,reg])
           } else if (state === ATTR_KEY) {
@@ -152,7 +153,19 @@ module.exports = function (h, opts) {
           res.push([CLOSE])
           reg = ''
           state = TEXT
-        } else if (state === TEXT) {
+        } else if (state === COMMENT && /-$/.test(reg) && c === '-') {
+          if (opts.comments) {
+            res.push([ATTR_VALUE,reg.substr(0, reg.length - 1)],[CLOSE])
+          }
+          reg = ''
+          state = TEXT
+        } else if (state === OPEN && /^!--$/.test(reg)) {
+          if (opts.comments) {
+            res.push([OPEN, reg],[ATTR_KEY,'comment'],[ATTR_EQ])
+          }
+          reg = c
+          state = COMMENT
+        } else if (state === TEXT || state === COMMENT) {
           reg += c
         } else if (state === OPEN && /\s/.test(c)) {
           res.push([OPEN, reg])
@@ -247,7 +260,7 @@ function has (obj, key) { return hasOwn.call(obj, key) }
 var closeRE = RegExp('^(' + [
   'area', 'base', 'basefont', 'bgsound', 'br', 'col', 'command', 'embed',
   'frame', 'hr', 'img', 'input', 'isindex', 'keygen', 'link', 'meta', 'param',
-  'source', 'track', 'wbr',
+  'source', 'track', 'wbr', '!--',
   // SVG TAGS
   'animate', 'animateTransform', 'circle', 'cursor', 'desc', 'ellipse',
   'feBlend', 'feColorMatrix', 'feComposite',
