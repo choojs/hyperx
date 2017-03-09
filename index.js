@@ -175,7 +175,7 @@ module.exports = function (h, opts) {
           state = ATTR
         } else if (state === OPEN) {
           reg += c
-        } else if (state === ATTR && /[\w-]/.test(c)) {
+        } else if (state === ATTR && /[^\s"'=/]/.test(c)) {
           state = ATTR_KEY
           reg = c
         } else if (state === ATTR && /\s/.test(c)) {
