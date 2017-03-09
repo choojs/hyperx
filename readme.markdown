@@ -185,6 +185,7 @@ strings with expressions. The `h` factory function will receive the objects
 returned by the concatenation function and can make specific use of them. This
 is useful if you want to implement a pre-processor to generate javascript from
 hyperx syntax.
+* `opts.attrToProp` - turn off attribute to property conversions when `false`
 
 # prior art
 
