@@ -7,10 +7,12 @@ var ATTR_VALUE_SQ = 9, ATTR_VALUE_DQ = 10
 var ATTR_EQ = 11, ATTR_BREAK = 12
 
 module.exports = function (h, opts) {
-  h = attrToProp(h)
   if (!opts) opts = {}
   var concat = opts.concat || function (a, b) {
     return String(a) + String(b)
+  }
+  if (opts.attrToProp !== false) {
+    h = attrToProp(h)
   }
 
   return function (strings) {
