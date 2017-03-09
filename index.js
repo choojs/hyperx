@@ -8,10 +8,12 @@ var ATTR_EQ = 11, ATTR_BREAK = 12
 var COMMENT = 13
 
 module.exports = function (h, opts) {
-  h = attrToProp(h)
   if (!opts) opts = {}
   var concat = opts.concat || function (a, b) {
     return String(a) + String(b)
+  }
+  if (opts.attrToProp !== false) {
+    h = attrToProp(h)
   }
 
   return function (strings) {
