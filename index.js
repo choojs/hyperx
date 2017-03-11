@@ -12,7 +12,7 @@ module.exports = function (h, opts) {
   var concat = opts.concat || function (a, b) {
     return String(a) + String(b)
   }
-  if (opts.attrToProp !== false) {
+  if (opts.attrToProp) {
     h = attrToProp(h)
   }
 

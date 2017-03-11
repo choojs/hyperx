@@ -1,7 +1,7 @@
 var test = require('tape')
 var vdom = require('virtual-dom')
 var hyperx = require('../')
-var hx = hyperx(vdom.h)
+var hx = hyperx(vdom.h, { attrToProp: true })
 
 test('class to className', function (t) {
   var tree = hx`<div class="wow"></div>`
@@ -22,7 +22,7 @@ test('http-equiv to httpEquiv', function (t) {
 })
 
 test('no transform', t => {
-  var hx = hyperx(vdom.h, { attrToProp: false })
+  var hx = hyperx(vdom.h)
   var tree = hx`<div class="wow"></div>`
   t.deepEqual(tree.properties, { class: 'wow' })
   t.end()
