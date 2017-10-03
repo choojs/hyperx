@@ -87,6 +87,9 @@ module.exports = function (h, opts) {
               // empty string is falsy, not well behaved value in browser
               cur[1][key] = key.toLowerCase()
             }
+            if (parts[i][0] === CLOSE) {
+              i--
+            }
             break
           }
         }
