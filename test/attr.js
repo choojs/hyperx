@@ -74,3 +74,9 @@ test('strange inbetween character attributes', function (t) {
   t.equal(vdom.create(tree).toString(), `<div f@o="bar" b&z="qux"></div>`)
   t.end()
 })
+
+test('null and undefined attributes', function (t) {
+  var tree = hx`<div onclick="alert(1)" onmouseenter=${undefined} onmouseleave=${null}></div>`
+  t.equal(vdom.create(tree).toString(), `<div onclick="alert(1)"></div>`)
+  t.end()
+})

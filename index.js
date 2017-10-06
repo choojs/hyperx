@@ -265,6 +265,7 @@ module.exports = function (h, opts) {
     if (typeof x === 'function') return x
     else if (typeof x === 'string') return x
     else if (x && typeof x === 'object') return x
+    else if (x === null || x === undefined) return x
     else return concat('', x)
   }
 }
