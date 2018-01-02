@@ -5,7 +5,8 @@
   "main": "dist/hyperx.js",
   "scripts": {
     "test": "tape test/*.js",
-    "coverage": "covert test/*.js"
+    "coverage": "covert test/*.js",
+    "prepack": "webpack"
   },
   "keywords": [
     "jsx",
