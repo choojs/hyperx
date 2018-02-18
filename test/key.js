@@ -63,10 +63,3 @@ test('multiple keys dont overwrite existing ones', function (t) {
   t.equal(vdom.create(tree).toString(), '<input type="date" />')
   t.end()
 })
-
-// https://github.com/choojs/hyperx/issues/55
-test('unquoted key does not make void element eat adjacent elements', function (t) {
-  var tree = hx`<span><input type=text>sometext</span>`
-  t.equal(vdom.create(tree).toString(), '<span><input type="text" />sometext</span>')
-  t.end()
-})

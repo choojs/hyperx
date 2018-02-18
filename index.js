@@ -5,7 +5,7 @@ var ATTR_KEY = 5, ATTR_KEY_W = 6
 var ATTR_VALUE_W = 7, ATTR_VALUE = 8
 var ATTR_VALUE_SQ = 9, ATTR_VALUE_DQ = 10
 var ATTR_EQ = 11, ATTR_BREAK = 12
-var COMMENT = 13
+var COMMENT = 13, SELF_CLOSE = 14
 
 module.exports = function (h, opts) {
   if (!opts) opts = {}
@@ -98,13 +98,12 @@ module.exports = function (h, opts) {
       } else if (s === VAR && p[1] === ATTR_KEY) {
         cur[1][p[2]] = true
       } else if (s === CLOSE) {
-        if (selfClosing(cur[0]) && stack.length) {
-          var ix = stack[stack.length-1][1]
-          stack.pop()
-          stack[stack.length-1][0][2][ix] = h(
-            cur[0], cur[1], cur[2].length ? cur[2] : undefined
-          )
-        }
+      } else if (s === SELF_CLOSE) {
+        var ix = stack[stack.length-1][1]
+        stack.pop()
+        stack[stack.length-1][0][2][ix] = h(
+          cur[0], cur[1], cur[2].length ? cur[2] : undefined
+        )
       } else if (s === VAR && p[1] === TEXT) {
         if (p[2] === undefined || p[2] === null) p[2] = ''
         else if (!p[2]) p[2] = concat('', p[2])
@@ -147,6 +146,14 @@ module.exports = function (h, opts) {
           if (reg.length) res.push([TEXT, reg])
           reg = ''
           state = OPEN
+        } else if (c === '>' && str.charAt(i - 1) === '/') {
+          res.push([SELF_CLOSE])
+          reg = ''
+          state = TEXT
+        } else if (c === '>' && str.charAt(i - 1) === '-' && str.charAt(i - 2) === '-') {
+          res.push([SELF_CLOSE])
+          reg = ''
+          state = TEXT
         } else if (c === '>' && !quot(state) && state !== COMMENT) {
           if (state === OPEN) {
             res.push([OPEN,reg])
@@ -263,21 +270,3 @@ function quot (state) {
 
 var hasOwn = Object.prototype.hasOwnProperty
 function has (obj, key) { return hasOwn.call(obj, key) }
-
-var closeRE = RegExp('^(' + [
-  'area', 'base', 'basefont', 'bgsound', 'br', 'col', 'command', 'embed',
-  'frame', 'hr', 'img', 'input', 'isindex', 'keygen', 'link', 'meta', 'param',
-  'source', 'track', 'wbr', '!--',
-  // SVG TAGS
-  'animate', 'animateTransform', 'circle', 'cursor', 'desc', 'ellipse',
-  'feBlend', 'feColorMatrix', 'feComposite',
-  'feConvolveMatrix', 'feDiffuseLighting', 'feDisplacementMap',
-  'feDistantLight', 'feFlood', 'feFuncA', 'feFuncB', 'feFuncG', 'feFuncR',
-  'feGaussianBlur', 'feImage', 'feMergeNode', 'feMorphology',
-  'feOffset', 'fePointLight', 'feSpecularLighting', 'feSpotLight', 'feTile',
-  'feTurbulence', 'font-face-format', 'font-face-name', 'font-face-uri',
-  'glyph', 'glyphRef', 'hkern', 'image', 'line', 'missing-glyph', 'mpath',
-  'path', 'polygon', 'polyline', 'rect', 'set', 'stop', 'tref', 'use', 'view',
-  'vkern'
-].join('|') + ')(?:[\.#][a-zA-Z0-9\u007F-\uFFFF_:-]+)*$')
-function selfClosing (tag) { return closeRE.test(tag) }
