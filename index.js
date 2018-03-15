@@ -128,6 +128,7 @@ module.exports = function (h, opts) {
 
     if (tree[2].length > 2
     || (tree[2].length === 2 && /\S/.test(tree[2][1]))) {
+      if (opts.createFragment) return opts.createFragment(tree[2])
       throw new Error(
         'multiple root elements must be wrapped in an enclosing tag'
       )
