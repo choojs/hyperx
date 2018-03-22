@@ -30,7 +30,16 @@ module.exports = function (h, opts) {
         if (xstate === ATTR_VALUE_SQ) xstate = ATTR_VALUE
         if (xstate === ATTR_VALUE_W) xstate = ATTR_VALUE
         if (xstate === ATTR) xstate = ATTR_KEY
-        p.push([ VAR, xstate, arg ])
+        if (xstate === OPEN) {
+          if (reg === '/') {
+            p.push([ OPEN, '/', arg ])
+            reg = ''
+          } else {
+            p.push([ OPEN, arg ])
+          }
+        } else {
+          p.push([ VAR, xstate, arg ])
+        }
         parts.push.apply(parts, p)
       } else parts.push.apply(parts, parse(strings[i]))
     }
@@ -148,7 +157,7 @@ module.exports = function (h, opts) {
           reg = ''
           state = OPEN
         } else if (c === '>' && !quot(state) && state !== COMMENT) {
-          if (state === OPEN) {
+          if (state === OPEN && reg.length) {
             res.push([OPEN,reg])
           } else if (state === ATTR_KEY) {
             res.push([ATTR_KEY,reg])
@@ -175,7 +184,9 @@ module.exports = function (h, opts) {
         } else if (state === OPEN && c === '/' && reg.length) {
           // no-op, self closing tag without a space <br/>
         } else if (state === OPEN && /\s/.test(c)) {
-          res.push([OPEN, reg])
+          if (reg.length) {
+            res.push([OPEN, reg])
+          }
           reg = ''
           state = ATTR
         } else if (state === OPEN) {
