@@ -30,19 +30,17 @@ If you're targeting these platforms, there's no need to use a transpiler!
 ## virtual-dom node example
 
 ``` js
-var vdom = require('virtual-dom')
-var hyperx = require('hyperx')
-var hx = hyperx(vdom.h)
+const vdom = require('virtual-dom')
+const hyperx = require('hyperx')
+const hx = hyperx(vdom.h)
 
-var title = 'world'
-var wow = [1,2,3]
-var tree = hx`<div>
+const title = 'world'
+const wow = [1,2,3]
+const tree = hx`<div>
   <h1 y="ab${1+2}cd">hello ${title}!</h1>
   ${hx`<i>cool</i>`}
   wow
-  ${wow.map(function (w, i) {
-    return hx`<b>${w}</b>\n`
-  })}
+  ${wow.map(w => hx`<b>${w}</b>\n`)}
 </div>`
 console.log(vdom.create(tree).toString())
 ```
@@ -62,20 +60,18 @@ $ node vdom.js
 ## react node example
 
 ``` js
-var React = require('react')
-var toString = require('react-dom/server').renderToString
-var hyperx = require('hyperx')
-var hx = hyperx(React.createElement)
+const React = require('react')
+const toString = require('react-dom/server').renderToString
+const hyperx = require('hyperx')
+const hx = hyperx(React.createElement)
 
-var title = 'world'
-var wow = [1,2,3]
-var tree = hx`<div>
+const title = 'world'
+const wow = [1,2,3]
+const tree = hx`<div>
   <h1 y="ab${1+2}cd">hello ${title}!</h1>
   ${hx`<i>cool</i>`}
   wow
-  ${wow.map(function (w, i) {
-    return hx`<b>${w}</b>\n`
-  })}
+  ${wow.map(w => hx`<b>${w}</b>\n`)}
 </div>`
 console.log(toString(tree))
 ```
@@ -83,19 +79,17 @@ console.log(toString(tree))
 ## hyperscript node example
 
 ``` js
-var h = require('hyperscript')
-var hyperx = require('hyperx')
-var hx = hyperx(h)
+const h = require('hyperscript')
+const hyperx = require('hyperx')
+const hx = hyperx(h)
 
-var title = 'world'
-var wow = [1,2,3]
-var tree = hx`<div>
+const title = 'world'
+const wow = [1,2,3]
+const tree = hx`<div>
   <h1 data-y="ab${1+2}cd">hello ${title}!</h1>
   ${hx`<i>cool</i>`}
   wow
-  ${wow.map(function (w) {
-    return hx`<b>${w}</b>\n`
-  })}
+  ${wow.map(w => hx`<b>${w}</b>\n`)}
 </div>`
 console.log(tree.outerHTML)
 ```
@@ -103,12 +97,12 @@ console.log(tree.outerHTML)
 ## virtual-dom/main-loop browser example
 
 ``` js
-var vdom = require('virtual-dom')
-var hyperx = require('hyperx')
-var hx = hyperx(vdom.h)
+const vdom = require('virtual-dom')
+const hyperx = require('hyperx')
+const hx = hyperx(vdom.h)
 
-var main = require('main-loop')
-var loop = main({ times: 0 }, render, vdom)
+const main = require('main-loop')
+const loop = main({ times: 0 }, render, vdom)
 document.querySelector('#content').appendChild(loop.target)
 
 function render (state) {
@@ -126,20 +120,20 @@ function render (state) {
 ## react browser example
 
 ``` js
-var React = require('react')
-var render = require('react-dom').render
-var hyperx = require('hyperx')
-var hx = hyperx(React.createElement)
+const React = require('react')
+const render = require('react-dom').render
+const hyperx = require('hyperx')
+const hx = hyperx(React.createElement)
 
-var App = React.createClass({
-  getInitialState: function () { return { n: 0 } },
-  render: function () {
+const App = React.createClass({
+  getInitialState() { return { n: 0 } },
+  render() {
     return hx`<div>
       <h1>clicked ${this.state.n} times</h1>
       <button onClick=${this.handleClick}>click me!</button>
     </div>`
   },
-  handleClick: function () {
+  handleClick() {
     this.setState({ n: this.state.n + 1 })
   }
 })
@@ -149,9 +143,9 @@ render(React.createElement(App), document.querySelector('#content'))
 ## console.log example
 
 ``` js
-var hyperx = require('hyperx')
+const hyperx = require('hyperx')
 
-var convertTaggedTemplateOutputToDomBuilder = hyperx(function (tagName, attrs, children) {
+const convertTaggedTemplateOutputToDomBuilder = hyperx(function (tagName, attrs, children) {
   console.log(tagName, attrs, children)
 })
 
@@ -164,10 +158,10 @@ convertTaggedTemplateOutputToDomBuilder`<h1>hello world</h1>`
 # api
 
 ```
-var hyperx = require('hyperx')
+const hyperx = require('hyperx')
 ```
 
-## var hx = hyperx(h, opts={})
+## const hx = hyperx(h, opts={})
 
 Return a tagged template function `hx` from a hyperscript-style factory function
 `h`.
