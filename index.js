@@ -28,7 +28,7 @@ module.exports = function (h, opts) {
         var xstate = state
         if (xstate === ATTR_VALUE_DQ) xstate = ATTR_VALUE
         if (xstate === ATTR_VALUE_SQ) xstate = ATTR_VALUE
-        if (xstate === ATTR_VALUE_W) xstate = ATTR_VALUE
+        if (xstate === ATTR_VALUE_W && isDefined(arg)) xstate = ATTR_VALUE
         if (xstate === ATTR) xstate = ATTR_KEY
         if (xstate === OPEN) {
           if (reg === '/') {
@@ -266,6 +266,10 @@ module.exports = function (h, opts) {
     else if (x && typeof x === 'object') return x
     else return concat('', x)
   }
+}
+
+function isDefined (arg) {
+  return arg !== null && arg !== undefined
 }
 
 function quot (state) {
