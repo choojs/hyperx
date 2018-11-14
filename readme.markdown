@@ -65,7 +65,9 @@ $ node vdom.js
 var React = require('react')
 var toString = require('react-dom/server').renderToString
 var hyperx = require('hyperx')
-var hx = hyperx(React.createElement)
+var hx = hyperx((component, properties, children) =>
+  createElement(component, properties, ...children)
+);
 
 var title = 'world'
 var wow = [1,2,3]
@@ -175,7 +177,7 @@ Return a tagged template function `hx` from a hyperscript-style factory function
 Values to use for `h`:
 
 * virtual-dom - `vdom.h`
-* react - `React.createElement`
+* react - `React.createElement` with parameter `children` spread 
 * hyperscript - hyperscript
 
 Optionally provide:
