@@ -67,7 +67,7 @@ var toString = require('react-dom/server').renderToString
 var hyperx = require('hyperx')
 var hx = hyperx((component, properties, children) =>
   createElement(component, properties, ...children)
-);
+)
 
 var title = 'world'
 var wow = [1,2,3]
