@@ -16,6 +16,15 @@ var hx = hyperx(createElement, {
   createFragment: createFragment
 })
 
+// use custom components by doing `<${Component}>`
+function FancyTable (props) {
+  return hx`
+    <table class=fancy>
+      ${props.children}
+    </table>
+  `
+}
+
 var title = 'world'
 var wow = [1,2,3]
 var frag = hx`
@@ -30,6 +39,8 @@ var tree = hx`<div>
     return hx`<b key="${i}">${w}</b>\n`
   })}
 
-  <table>${frag}</table>
+  <${FancyTable}>
+    ${frag}
+  </${FancyTable}>
 </div>`
 console.log(toString(tree))
