@@ -17,7 +17,12 @@ module.exports = function (h, opts) {
   }
 
   return function (strings) {
-    var state = TEXT, reg = ''
+		var state = TEXT, reg = ''
+		if (strings[0] === '' && strings[1] === '') {
+			const view = arguments[1]
+			arguments = [strings]
+			strings = [view]
+		}
     var arglen = arguments.length
     var parts = []
 
