@@ -37,7 +37,9 @@ module.exports = function (h, opts) {
           } else {
             p.push([ OPEN, arg ])
           }
-        } else {
+        } else if (xstate === COMMENT && opts.comments) {
+          reg += String(arg)
+        } else if (xstate !== COMMENT) {
           p.push([ VAR, xstate, arg ])
         }
         parts.push.apply(parts, p)
@@ -170,7 +172,7 @@ module.exports = function (h, opts) {
           state = TEXT
         } else if (state === COMMENT && /-$/.test(reg) && c === '-') {
           if (opts.comments) {
-            res.push([ATTR_VALUE,reg.substr(0, reg.length - 1)],[CLOSE])
+            res.push([ATTR_VALUE,reg.substr(0, reg.length - 1)])
           }
           reg = ''
           state = TEXT

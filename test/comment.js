@@ -49,3 +49,29 @@ test('excluded by default', function (t) {
   t.equal(tree, '<div></div>')
   t.end()
 })
+
+test('template parts in comment, discard comments', function (t) {
+  var child = 'something'
+  var objectChild = {
+    type: 'div',
+    children: ['something']
+  }
+  var tree = hx`<div><!-- abc ${child} def --></div>`
+  t.equal(tree, '<div></div>')
+  tree = hx`<div><!-- abc ${objectChild} def --></div>`
+  t.equal(tree, '<div></div>')
+  t.end()
+})
+
+test('template parts in comment, keep comments', function (t) {
+  var child = 'something'
+  var objectChild = {
+    type: 'div',
+    children: ['something']
+  }
+  var tree = hxc`<div><!-- abc ${child} def --></div>`
+  t.equal(tree, '<div><!-- abc something def --></div>')
+  tree = hxc`<div><!-- abc ${objectChild} def --></div>`
+  t.equal(tree, '<div><!-- abc [object Object] def --></div>', 'stringifies comment contents')
+  t.end()
+})
