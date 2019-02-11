@@ -74,3 +74,39 @@ test('strange inbetween character attributes', function (t) {
   t.equal(vdom.create(tree).toString(), `<div f@o="bar" b&z="qux"></div>`)
   t.end()
 })
+
+test('null and undefined attributes', function (t) {
+  var tree = hx`<div onclick="alert(1)" onmouseenter=${undefined} onmouseleave=${null}></div>`
+  t.equal(vdom.create(tree).toString(), `<div onclick="alert(1)"></div>`)
+  t.end()
+})
+
+test('undefined (with quotes) attribute value is evaluated', function (t) {
+  var tree = hx`<div foo='undefined'></div>`
+  t.equal(vdom.create(tree).toString(), `<div foo="undefined"></div>`)
+  t.end()
+})
+
+test('null (with quotes) attribute value is evaluated', function (t) {
+  var tree = hx`<div foo='null'></div>`
+  t.equal(vdom.create(tree).toString(), `<div foo="null"></div>`)
+  t.end()
+})
+
+test('undefined (without quotes) attribute value is evaluated', function (t) {
+  var tree = hx`<div foo=undefined></div>`
+  t.equal(vdom.create(tree).toString(), `<div foo="undefined"></div>`)
+  t.end()
+})
+
+test('null (without quotes) attribute value is evaluated', function (t) {
+  var tree = hx`<div foo=null></div>`
+  t.equal(vdom.create(tree).toString(), `<div foo="null"></div>`)
+  t.end()
+})
+
+test('null is ignored and adjacent attribute is evaluated', function (t) {
+  var tree = hx`<div foo=${null} t></div>`
+  t.equal(vdom.create(tree).toString(), `<div t="t"></div>`)
+  t.end()
+})
