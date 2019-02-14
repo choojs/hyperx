@@ -131,13 +131,18 @@ module.exports = function (h, opts) {
       }
     }
 
-    // handle single top-level array template part
-    if (tree[2].length === 1 && Array.isArray(tree[2][0])) {
-      tree[2] = tree[2][0]
-    }
-
     if (tree[2].length > 1 && /^\s*$/.test(tree[2][0])) {
       tree[2].shift()
+    }
+
+    // handle single top-level array template part
+    if ((
+      // hx`${[ ...els ]}`
+      tree[2].length === 1 ||
+      // trailing whitespace: hx`${[ ...els ]}  `
+      tree[2].length === 2 && /^\s*$/.test(tree[2][1])
+    ) && Array.isArray(tree[2][0])) {
+      tree[2] = tree[2][0]
     }
 
     if (tree[2].length > 2

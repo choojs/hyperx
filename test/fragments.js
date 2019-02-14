@@ -7,7 +7,7 @@ function createFragment (nodes) {
   return { frag: nodes }
 }
 
-test('mutliple root, fragments as array', function (t) {
+test('multiple root, fragments as array', function (t) {
   var list = hx`<li>1</li>  <li>2<div>_</div></li>`
   t.ok(Array.isArray(list.frag))
   t.equal(list.frag.length, 3, '3 elements')
@@ -17,8 +17,10 @@ test('mutliple root, fragments as array', function (t) {
   t.end()
 })
 
-test('mutliple root embeds, fragments as array', function (t) {
-  var list = hx`${[1,2]}`
+test('multiple root embeds, fragments as array', function (t) {
+  var list = hx`
+    ${[1,2]}
+  `
   t.ok(Array.isArray(list.frag))
   t.deepEqual(list, {
     frag: [1, 2]
