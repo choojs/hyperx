@@ -203,6 +203,9 @@ hyperx syntax.
 will be provided as an array to this function. the return value will then be returned
 by the template literal
 
+* `opts.vdom` - pass `true` when you are using virtual-dom. this fixes issues using
+data-\*, aria-\* and passing style as a string. see [this issue](https://github.com/substack/hyperx/issues/28)  
+
 # prior art
 
 * http://www.2ality.com/2014/07/jsx-template-strings.html?m=1
