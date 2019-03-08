@@ -2,10 +2,11 @@
   "name": "hyperx",
   "version": "2.5.4",
   "description": "tagged template string virtual dom builder",
-  "main": "index.js",
+  "main": "dist/hyperx.js",
   "scripts": {
     "test": "tape test/*.js",
-    "coverage": "covert test/*.js"
+    "coverage": "covert test/*.js",
+    "prepack": "webpack"
   },
   "keywords": [
     "jsx",
@@ -22,12 +23,15 @@
   "devDependencies": {
     "covert": "^1.1.0",
     "hyperscript": "^1.4.7",
+    "hyperscript-attribute-to-property": "^1.0.0",
     "tape": "^4.4.0",
-    "virtual-dom": "^2.1.1"
+    "uglifyjs-webpack-plugin": "^1.1.5",
+    "virtual-dom": "^2.1.1",
+    "webpack": "^3.10.0"
   },
-  "dependencies": {
-    "hyperscript-attribute-to-property": "^1.0.0"
-  },
+  "files": [
+    "dist"
+  ],
   "directories": {
     "example": "example",
     "test": "test"

@@ -159,6 +159,23 @@ var App = React.createClass({
 render(React.createElement(App), document.querySelector('#content'))
 ```
 
+## UMD example (via Hyperapp)
+
+```html
+<script src="https://unpkg.com/hyperapp@1.0.1/dist/hyperapp.js"></script>
+<script src="https://unpkg.com/hyperx@latest/dist/hyperx.min.js"></script>
+<script>
+  const {app, h} = hyperapp
+  const hx = hyperx(h)
+  const main = app(
+    {}, // state
+    {}, // actions
+    () => hx`<div>Hello from HyperX!</div>`,
+    document.getElementById('root')
+  )
+</script>
+```
+
 ## console.log example
 
 ``` js
