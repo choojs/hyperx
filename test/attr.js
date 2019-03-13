@@ -75,6 +75,16 @@ test('strange inbetween character attributes', function (t) {
   t.end()
 })
 
+test('toggle boolean attributes with true/false', function (t) {
+  var tree = hx`<div hidden=${true}></div>`
+  t.equal(vdom.create(tree).toString(), `<div hidden="hidden"></div>`)
+
+  var tree = hx`<div hidden=${false}></div>`
+  t.equal(vdom.create(tree).toString(), `<div></div>`)
+
+  t.end()
+})
+
 test('null and undefined attributes', function (t) {
   var tree = hx`<div onclick="alert(1)" onmouseenter=${undefined} onmouseleave=${null}></div>`
   t.equal(vdom.create(tree).toString(), `<div onclick="alert(1)"></div>`)

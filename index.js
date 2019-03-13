@@ -89,7 +89,11 @@ module.exports = function (h, opts) {
             else parts[i][1]==="" || (cur[1][key] = concat(cur[1][key], parts[i][1]));
           } else if (parts[i][0] === VAR
           && (parts[i][1] === ATTR_VALUE || parts[i][1] === ATTR_KEY)) {
-            if (!cur[1][key]) cur[1][key] = strfn(parts[i][2])
+            if (typeof parts[i][2] === 'boolean') {
+              if (!parts[i][2]) delete cur[1][key]
+              else cur[1][key] = key
+            }
+            else if (!cur[1][key]) cur[1][key] = strfn(parts[i][2])
             else parts[i][2]==="" || (cur[1][key] = concat(cur[1][key], parts[i][2]));
           } else {
             if (key.length && !cur[1][key] && i === j
