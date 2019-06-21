@@ -21,9 +21,15 @@ test('string value (empty)', function (t) {
   t.end()
 })
 
-test('boolean value', function (t) {
+test('boolean value (empty)', function (t) {
   var tree = hx`<div>${false}</div>`
   t.equal(vdom.create(tree).toString(), '<div></div>')
+  t.end()
+})
+
+test('boolean value', function (t) {
+  var tree = hx`<div>${true}</div>`
+  t.equal(vdom.create(tree).toString(), '<div>true</div>')
   t.end()
 })
 
