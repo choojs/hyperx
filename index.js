@@ -1,4 +1,4 @@
-var attrToProp = require('hyperscript-attribute-to-property')
+var attrToProp = require('https://cdn.skypack.dev/hyperscript-attribute-to-property')
 
 
 var VAR = 0, TEXT = 1, OPEN = 2, CLOSE = 3, ATTR = 4
@@ -8,7 +8,8 @@ var ATTR_VALUE_SQ = 9, ATTR_VALUE_DQ = 10
 var ATTR_EQ = 11, ATTR_BREAK = 12
 var COMMENT = 13
 
-module.exports = function (h, opts={}) {
+module.exports = function (h, opts) {
+  if (!opts) opts =  { }
 
   var concat = opts.concat || function (a, b) {
     return String(a) + String(b)
