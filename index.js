@@ -1,4 +1,4 @@
-var attrToProp = require('https://cdn.skypack.dev/hyperscript-attribute-to-property')
+var attrToProp = require('hyperscript-attribute-to-property')
 
 
 var VAR = 0, TEXT = 1, OPEN = 2, CLOSE = 3, ATTR = 4
