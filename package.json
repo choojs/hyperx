@@ -34,10 +34,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/substack/hyperx.git"
+    "url": "git+https://github.com/mreinstein/hyperx.git"
   },
   "bugs": {
-    "url": "https://github.com/substack/hyperx/issues"
+    "url": "https://github.com/mreinstein/hyperx/issues"
   },
-  "homepage": "https://github.com/substack/hyperx#readme"
+  "homepage": "https://github.com/mreinstein/hyperx#readme"
 }
