@@ -1,3 +1,11 @@
+# why does mreinstein/hyperx exist?
+
+The existing [hyperx](https://npmjs.com/package/hyperx) module is lacking maintainers right now. I've forked that repo and provide fixes for issues [#41](https://github.com/choojs/hyperx/issues/41) and [#82](https://github.com/choojs/hyperx/issues/82).
+
+I've [requested to become a maintainer](https://github.com/choojs/hyperx/issues/83) on the hyperx repo or for my PRs to be merged. Until then I'll maintain this (hopefully temporary) fork.
+
+
+
 # hyperx
 
 tagged template string virtual dom builder
