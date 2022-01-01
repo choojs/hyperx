@@ -21,8 +21,8 @@
   "license": "BSD",
   "devDependencies": {
     "covert": "^1.1.0",
-    "hyperscript": "^1.4.7",
-    "tape": "^4.4.0",
+    "hyperscript": "^2.0.2",
+    "tape": "^5.4.0",
     "virtual-dom": "^2.1.1"
   },
   "dependencies": {
