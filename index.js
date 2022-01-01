@@ -8,6 +8,7 @@ var ATTR_VALUE_SQ = 9, ATTR_VALUE_DQ = 10
 var ATTR_EQ = 11, ATTR_BREAK = 12
 var COMMENT = 13
 
+
 module.exports = function (h, opts) {
   if (!opts) opts =  { }
 
@@ -185,6 +186,8 @@ module.exports = function (h, opts) {
     function parse (str) {
       var res = [ ]
 
+      var isInStyleTag = false
+
       if (state === ATTR_VALUE_W)
         state = ATTR
 
@@ -195,17 +198,26 @@ module.exports = function (h, opts) {
             res.push([TEXT, reg])
           reg = ''
           state = OPEN
-        } else if (c === '>' && !quot(state) && state !== COMMENT) {
+          isInStyleTag = false
+
+        } else if (c === '>' && !isInStyleTag && !quot(state) && state !== COMMENT) {
+
           if (state === OPEN && reg.length) {
             res.push([OPEN,reg])
+
+            if (reg === 'style')
+              isInStyleTag = true
+
           } else if (state === ATTR_KEY) {
             res.push([ATTR_KEY,reg])
           } else if (state === ATTR_VALUE && reg.length) {
             res.push([ATTR_VALUE,reg])
           }
+
           res.push([CLOSE, isSelfClosing])
           isSelfClosing = false
           reg = ''
+
           state = TEXT
         } else if (state === COMMENT && /-$/.test(reg) && c === '-') {
           if (opts.comments) {
