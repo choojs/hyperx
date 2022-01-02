@@ -200,13 +200,15 @@ module.exports = function (h, opts) {
           state = OPEN
           isInStyleTag = false
 
-        } else if (c === '>' && !isInStyleTag && !quot(state) && state !== COMMENT) {
+        } else if (c === '>' && !quot(state) && state !== COMMENT) {
 
           if (state === OPEN && reg.length) {
             res.push([OPEN,reg])
 
             if (reg === 'style')
               isInStyleTag = true
+            else if (reg === '/style')
+              isInStyleTag = false
 
           } else if (state === ATTR_KEY) {
             res.push([ATTR_KEY,reg])
@@ -214,11 +216,18 @@ module.exports = function (h, opts) {
             res.push([ATTR_VALUE,reg])
           }
 
-          res.push([CLOSE, isSelfClosing])
-          isSelfClosing = false
-          reg = ''
-
+          if (state === TEXT && isInStyleTag) {
+            // the css descendant selector within <style> tags shouldn't close
+            // e.g., <style> ul > .test { color: blue }</style>
+            reg += c
+          } else {
+            res.push([CLOSE, isSelfClosing])
+            isSelfClosing = false
+            reg = ''
+          }
+          
           state = TEXT
+
         } else if (state === COMMENT && /-$/.test(reg) && c === '-') {
           if (opts.comments) {
             res.push([ATTR_VALUE,reg.substr(0, reg.length - 1)])
@@ -241,6 +250,11 @@ module.exports = function (h, opts) {
         } else if (state === OPEN && /\s/.test(c)) {
           if (reg.length)
             res.push([OPEN, reg])
+
+          if (reg === 'style')
+            isInStyleTag = true
+          else if (reg === '/style')
+            isInStyleTag = false
 
           reg = ''
           state = ATTR
