@@ -1,6 +1,6 @@
 {
-  "name": "hyperx",
-  "version": "2.5.4",
+  "name": "hyperx-tmp",
+  "version": "2.5.6",
   "description": "tagged template string virtual dom builder",
   "main": "index.js",
   "scripts": {
@@ -21,8 +21,8 @@
   "license": "BSD",
   "devDependencies": {
     "covert": "^1.1.0",
-    "hyperscript": "^1.4.7",
-    "tape": "^4.4.0",
+    "hyperscript": "^2.0.2",
+    "tape": "^5.4.0",
     "virtual-dom": "^2.1.1"
   },
   "dependencies": {
@@ -34,10 +34,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/substack/hyperx.git"
+    "url": "git+https://github.com/mreinstein/hyperx.git"
   },
   "bugs": {
-    "url": "https://github.com/substack/hyperx/issues"
+    "url": "https://github.com/mreinstein/hyperx/issues"
   },
-  "homepage": "https://github.com/substack/hyperx#readme"
+  "homepage": "https://github.com/mreinstein/hyperx#readme"
 }

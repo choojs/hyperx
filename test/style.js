@@ -15,3 +15,42 @@ test('style', function (t) {
   )
   t.end()
 })
+
+
+test('embedded style', function (t) {
+  var key = 'type'
+  var value = 'text'
+  var tree = hx`<style>
+       .test > ul {
+          background-color: red;
+       }
+   </style>`
+  t.equal(
+    vdom.create(tree).toString(),
+    `<style>
+       .test &gt; ul {
+          background-color: red;
+       }
+   </style>`
+  )
+  t.end()
+})
+
+test('embedded style with attributes', function (t) {
+  var key = 'type'
+  var value = 'text'
+  var tree = hx`<style id="test1">
+       .test > ul {
+          background-color: red;
+       }
+   </style>`
+  t.equal(
+    vdom.create(tree).toString(),
+    `<style id="test1">
+       .test &gt; ul {
+          background-color: red;
+       }
+   </style>`
+  )
+  t.end()
+})
