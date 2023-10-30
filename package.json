@@ -1,5 +1,5 @@
 {
-  "name": "hyperx-tmp",
+  "name": "hyperx",
   "version": "2.5.6",
   "description": "tagged template string virtual dom builder",
   "main": "index.js",
