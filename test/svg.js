@@ -3,16 +3,16 @@ import test   from 'tape'
 import vdom   from 'virtual-dom'
 
 
-var hx = hyperx(vdom.h)
+const hx = hyperx(vdom.h)
 
 test('svg mixed with html', function (t) {
-  var expected = `<div>
+  const expected = `<div>
     <h3>test</h3>
     <svg width="150" height="100" viewBox="0 0 3 2">
       <rect width="1" height="2" x="0" fill="#008d46"></rect>
     </svg>
   </div>`
-  var tree = hx`<div>
+  const tree = hx`<div>
     <h3>test</h3>
     <svg width="150" height="100" viewBox="0 0 3 2">
       <rect width="1" height="2" x="0" fill="#008d46" />
@@ -23,7 +23,7 @@ test('svg mixed with html', function (t) {
 })
 
 test('svg mixed with html and close / self-closing tags', function (t) {
-  var expected = `<div>
+  const expected = `<div>
     <h3>test</h3>
     <svg width="150" height="100" viewBox="0 0 3 2">
       <use id="test"></use>
@@ -33,7 +33,7 @@ test('svg mixed with html and close / self-closing tags', function (t) {
       <use id="test"></use>
     </svg>
   </div>`
-  var tree = hx`<div>
+  const tree = hx`<div>
     <h3>test</h3>
     <svg width="150" height="100" viewBox="0 0 3 2">
       <use id="test"></use>

@@ -3,12 +3,12 @@ import test   from 'tape'
 import vdom   from 'virtual-dom'
 
 
-var hx = hyperx(vdom.h)
+const hx = hyperx(vdom.h)
 
 test('style', function (t) {
-  var key = 'type'
-  var value = 'text'
-  var tree = hx`<input style=${
+  const key = 'type'
+  const value = 'text'
+  const tree = hx`<input style=${
     {color:'purple','font-size':16}
   } type="text">`
   t.equal(
@@ -20,9 +20,9 @@ test('style', function (t) {
 
 
 test('embedded style', function (t) {
-  var key = 'type'
-  var value = 'text'
-  var tree = hx`<style>
+  const key = 'type'
+  const value = 'text'
+  const tree = hx`<style>
        .test > ul {
           background-color: red;
        }
@@ -39,9 +39,9 @@ test('embedded style', function (t) {
 })
 
 test('embedded style with attributes', function (t) {
-  var key = 'type'
-  var value = 'text'
-  var tree = hx`<style id="test1">
+  const key = 'type'
+  const value = 'text'
+  const tree = hx`<style id="test1">
        .test > ul {
           background-color: red;
        }

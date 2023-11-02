@@ -3,11 +3,11 @@ import test   from 'tape'
 import vdom   from 'virtual-dom'
 
 
-var hx = hyperx(vdom.h)
+const hx = hyperx(vdom.h)
 
 test('escape double quotes', function (t) {
-  var value = '">'
-  var tree = hx`<input type="text" value="${value}"></h1>`
+  const value = '">'
+  const tree = hx`<input type="text" value="${value}"></h1>`
   t.equal(
     vdom.create(tree).toString(),
   `<input type="text" value="&quot;&gt;" />`
@@ -16,8 +16,8 @@ test('escape double quotes', function (t) {
 })
 
 test('escape single quotes', function (t) {
-  var value = "'>"
-  var tree = hx`<input type='text' value='${value}'></h1>`
+  const value = "'>"
+  const tree = hx`<input type='text' value='${value}'></h1>`
   t.equal(
     vdom.create(tree).toString(),
   `<input type="text" value="'&gt;" />`
