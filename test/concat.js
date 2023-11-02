@@ -1,6 +1,8 @@
-var test = require('tape')
-var vdom = require('virtual-dom')
-var hyperx = require('../')
+import hyperx from '../index.js'
+import test   from 'tape'
+import vdom   from 'virtual-dom'
+
+
 var hx = hyperx(function (tagName, opts, children) {
   return {
     expr: 'h(' + JSON.stringify(tagName)

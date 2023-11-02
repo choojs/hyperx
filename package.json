@@ -3,6 +3,7 @@
   "version": "3.0.0",
   "description": "tagged template string virtual dom builder",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "tape test/*.js",
     "coverage": "covert test/*.js"
@@ -34,10 +35,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mreinstein/hyperx.git"
+    "url": "git+https://github.com/choojs/hyperx.git"
   },
   "bugs": {
-    "url": "https://github.com/mreinstein/hyperx/issues"
+    "url": "https://github.com/choojs/hyperx/issues"
   },
-  "homepage": "https://github.com/mreinstein/hyperx#readme"
+  "homepage": "https://github.com/choojs/hyperx#readme"
 }

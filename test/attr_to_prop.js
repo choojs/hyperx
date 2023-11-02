@@ -1,6 +1,8 @@
-var test = require('tape')
-var vdom = require('virtual-dom')
-var hyperx = require('../')
+import hyperx from '../index.js'
+import test   from 'tape'
+import vdom   from 'virtual-dom'
+
+
 var hx = hyperx(vdom.h)
 
 test('class to className', function (t) {

@@ -1,7 +1,9 @@
-var test = require('tape')
-var vdom = require('virtual-dom')
-var hyperx = require('../')
-var hx = hyperx(vdom.h)
+import hyperx from '../index.js'
+import test   from 'tape'
+import vdom   from 'virtual-dom'
+
+
+const hx = hyperx(vdom.h)
 
 test('class', function (t) {
   var tree = hx`<div class="wow"></div>`

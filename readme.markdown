@@ -18,6 +18,7 @@ parser down the wire.
 
 [2]: https://npmjs.com/package/hyperxify
 
+
 # compatibility
 
 [Template strings][1] are available in:
@@ -27,18 +28,20 @@ If you're targeting these platforms, there's no need to use a transpiler!
 
 [1]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/template_strings
 
+
 # examples
 
 ## virtual-dom node example
 
 ``` js
-var vdom = require('virtual-dom')
-var hyperx = require('hyperx')
-var hx = hyperx(vdom.h)
+import vdom   from 'virtual-dom'
+import hyperx from 'hyperx'
 
-var title = 'world'
-var wow = [1,2,3]
-var tree = hx`<div>
+const hx = hyperx(vdom.h)
+
+const title = 'world'
+const wow = [ 1, 2, 3 ]
+const tree = hx`<div>
   <h1 y="ab${1+2}cd">hello ${title}!</h1>
   ${hx`<i>cool</i>`}
   wow
@@ -46,6 +49,7 @@ var tree = hx`<div>
     return hx`<b>${w}</b>\n`
   })}
 </div>`
+
 console.log(vdom.create(tree).toString())
 ```
 
@@ -64,10 +68,11 @@ $ node vdom.js
 ## react node example
 
 ``` js
-var React = require('react')
-var toString = require('react-dom/server').renderToString
-var hyperx = require('hyperx')
-var hx = hyperx(function createElement (component, properties, children) {
+import React              from 'react'
+import { renderToString } from 'react-dom/server'
+import hyperx             from 'hyperx'
+
+const hx = hyperx(function createElement (component, properties, children) {
   // Pass children as separate arguments to avoid key warnings
   return React.createElement.apply(null, [component, properties].concat(children))
 }, {
@@ -76,13 +81,14 @@ var hx = hyperx(function createElement (component, properties, children) {
   }
 })
 
-var title = 'world'
-var wow = [1,2,3]
-var frag = hx`
+const title = 'world'
+const wow = [ 1, 2, 3 ]
+const frag = hx`
   <tr> <td>row1</td> </tr>
   <tr> <td>row2</td> </tr>
 `
-var tree = hx`<div>
+
+const tree = hx`<div>
   <h1 y="ab${1+2}cd">hello ${title}!</h1>
   ${hx`<i>cool</i>`}
   wow
@@ -92,19 +98,21 @@ var tree = hx`<div>
 
   <table>${frag}</table>
 </div>`
-console.log(toString(tree))
+
+console.log(renderToString(tree))
 ```
 
 ## hyperscript node example
 
 ``` js
-var h = require('hyperscript')
-var hyperx = require('hyperx')
-var hx = hyperx(h)
+import h      from 'hyperscript'
+import hyperx from 'hyperx'
 
-var title = 'world'
-var wow = [1,2,3]
-var tree = hx`<div>
+const hx = hyperx(h)
+
+const title = 'world'
+const wow = [1,2,3]
+const tree = hx`<div>
   <h1 data-y="ab${1+2}cd">hello ${title}!</h1>
   ${hx`<i>cool</i>`}
   wow
@@ -112,18 +120,20 @@ var tree = hx`<div>
     return hx`<b>${w}</b>\n`
   })}
 </div>`
+
 console.log(tree.outerHTML)
 ```
 
 ## virtual-dom/main-loop browser example
 
 ``` js
-var vdom = require('virtual-dom')
-var hyperx = require('hyperx')
-var hx = hyperx(vdom.h)
+import vdom   from 'virtual-dom'
+import hyperx from 'hyperx'
+import main   from 'main-loop'
 
-var main = require('main-loop')
-var loop = main({ times: 0 }, render, vdom)
+const hx = hyperx(vdom.h)
+
+const loop = main({ times: 0 }, render, vdom)
 document.querySelector('#content').appendChild(loop.target)
 
 function render (state) {
@@ -141,12 +151,13 @@ function render (state) {
 ## react browser example
 
 ``` js
-var React = require('react')
-var render = require('react-dom').render
-var hyperx = require('hyperx')
-var hx = hyperx(React.createElement)
+import React from 'react'
+import { render } from 'react-dom'
+import hyperx from 'hyperx'
 
-var App = React.createClass({
+const hx = hyperx(React.createElement)
+
+const App = React.createClass({
   getInitialState: function () { return { n: 0 } },
   render: function () {
     return hx`<div>
@@ -158,15 +169,16 @@ var App = React.createClass({
     this.setState({ n: this.state.n + 1 })
   }
 })
+
 render(React.createElement(App), document.querySelector('#content'))
 ```
 
 ## console.log example
 
 ``` js
-var hyperx = require('hyperx')
+import hyperx from 'hyperx'
 
-var convertTaggedTemplateOutputToDomBuilder = hyperx(function (tagName, attrs, children) {
+const convertTaggedTemplateOutputToDomBuilder = hyperx(function (tagName, attrs, children) {
   console.log(tagName, attrs, children)
 })
 
@@ -178,11 +190,11 @@ convertTaggedTemplateOutputToDomBuilder`<h1>hello world</h1>`
 
 # api
 
-```
-var hyperx = require('hyperx')
+```js
+import hyperx from 'hyperx'
 ```
 
-## var hx = hyperx(h, opts={})
+## const hx = hyperx(h, opts={})
 
 Return a tagged template function `hx` from a hyperscript-style factory function
 `h`.
@@ -205,17 +217,13 @@ hyperx syntax.
 will be provided as an array to this function. the return value will then be returned
 by the template literal
 
+
 # prior art
 
 * http://www.2ality.com/2014/07/jsx-template-strings.html?m=1
 * http://facebook.github.io/jsx/#why-not-template-literals (respectfully disagree)
 
+
 # license
 
 BSD
-
-# install
-
-```
-npm install hyperx
-```

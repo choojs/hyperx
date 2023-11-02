@@ -1,5 +1,7 @@
-var test = require('tape')
-var hyperx = require('../')
+import hyperx from '../index.js'
+import test   from 'tape'
+
+
 var hx = hyperx(createElement)
 var hxc = hyperx(createElement, {comments: true})
 
