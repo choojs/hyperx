@@ -1,6 +1,6 @@
 {
   "name": "hyperx",
-  "version": "2.5.6",
+  "version": "3.0.0",
   "description": "tagged template string virtual dom builder",
   "main": "index.js",
   "scripts": {
