@@ -1,5 +1,7 @@
 # hyperx
 
+![tests](https://github.com/choojs/hyperx/actions/workflows/main.yml/badge.svg)
+
 tagged template string virtual dom builder
 
 This module is similar to JSX, but provided as a standards-compliant ES6 tagged
