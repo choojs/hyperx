@@ -1,10 +1,12 @@
-var test = require('tape')
-var h = require('hyperscript')
-var hyperx = require('../')
-var hx = hyperx(h)
+import hyperx from '../index.js'
+import test   from 'tape'
+import h      from 'hyperscript'
+
+
+const hx = hyperx(h)
 
 // We cant use custom attributes y="" with hyperscript in the browser, use data-y="" instead
-var expected = `<div>
+const expected = `<div>
     <h1 data-y="ab3cd">hello world!</h1>
     <i>cool</i>
     wow
@@ -12,9 +14,9 @@ var expected = `<div>
   </div>`
 
 test('hyperscript', function (t) {
-  var title = 'world'
-  var wow = [1,2,3]
-  var tree = hx`<div>
+  const title = 'world'
+  const wow = [1,2,3]
+  const tree = hx`<div>
     <h1 data-y="ab${1+2}cd">hello ${title}!</h1>
     ${hx`<i>cool</i>`}
     wow

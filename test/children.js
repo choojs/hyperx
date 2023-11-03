@@ -1,22 +1,24 @@
-var test = require('tape')
-var vdom = require('virtual-dom')
-var hyperx = require('../')
-var hx = hyperx(vdom.h)
+import hyperx from '../index.js'
+import test   from 'tape'
+import vdom   from 'virtual-dom'
+
+
+const hx = hyperx(vdom.h)
 
 test('1 child', function (t) {
-  var tree = hx`<div><span>foobar</span></div>`
+  const tree = hx`<div><span>foobar</span></div>`
   t.equal(vdom.create(tree).toString(), '<div><span>foobar</span></div>')
   t.end()
 })
 
 test('no children', function (t) {
-  var tree = hx`<img href="xxx">`
+  const tree = hx`<img href="xxx">`
   t.equal(vdom.create(tree).toString(), '<img href="xxx" />')
   t.end()
 })
 
 test('multiple children', function (t) {
-  var html = `<div>
+  const html = `<div>
     <h1>title</h1>
     <div>
       <ul>
@@ -26,7 +28,7 @@ test('multiple children', function (t) {
       </ul>
     </div>
   </div>`
-  var tree = hx`
+  const tree = hx`
   <div>
     <h1>title</h1>
     <div>

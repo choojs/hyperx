@@ -1,24 +1,22 @@
-var attrToProp = require('hyperscript-attribute-to-property')
+import attrToProp from 'hyperscript-attribute-to-property'
 
 
-var VAR = 0, TEXT = 1, OPEN = 2, CLOSE = 3, ATTR = 4
-var ATTR_KEY = 5, ATTR_KEY_W = 6
-var ATTR_VALUE_W = 7, ATTR_VALUE = 8
-var ATTR_VALUE_SQ = 9, ATTR_VALUE_DQ = 10
-var ATTR_EQ = 11, ATTR_BREAK = 12
-var COMMENT = 13
+const VAR = 0, TEXT = 1, OPEN = 2, CLOSE = 3, ATTR = 4
+const ATTR_KEY = 5, ATTR_KEY_W = 6
+const ATTR_VALUE_W = 7, ATTR_VALUE = 8
+const ATTR_VALUE_SQ = 9, ATTR_VALUE_DQ = 10
+const ATTR_EQ = 11, ATTR_BREAK = 12
+const COMMENT = 13
 
 
-module.exports = function (h, opts) {
-  if (!opts) opts =  { }
-
-  var concat = opts.concat || function (a, b) {
+export default function hyperx (h, opts={}) {
+  
+  const concat = opts.concat || function (a, b) {
     return String(a) + String(b)
   }
 
   if (opts.attrToProp !== false)
     h = attrToProp(h)
-
 
   return function (strings) {
 
@@ -347,21 +345,24 @@ module.exports = function (h, opts) {
   }
 }
 
+
 function quot (state) {
   return state === ATTR_VALUE_SQ || state === ATTR_VALUE_DQ
 }
 
+
 //area, base, br, col, command, embed, hr, img, input, keygen, link, meta, param, source, track, wbr
-var voidCloseRE = RegExp('^(' + [
+const voidCloseRE = RegExp('^(' + [
   'area', 'base', 'br', 'col', 'command', 'embed',
   'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param',
   'source', 'track', 'wbr'
 ].join('|') + ')(?:[\.#][a-zA-Z0-9\u007F-\uFFFF_:-]+)*$')
 
+
 function selfClosingVoid (tag) { return voidCloseRE.test(tag) }
 
 /*
-var closeRE = RegExp('^(' + [
+const closeRE = RegExp('^(' + [
   'area', 'base', 'basefont', 'bgsound', 'br', 'col', 'command', 'embed',
   'frame', 'hr', 'img', 'input', 'isindex', 'keygen', 'link', 'meta', 'param',
   'source', 'track', 'wbr', '!--',

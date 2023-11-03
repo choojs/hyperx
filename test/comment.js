@@ -1,7 +1,9 @@
-var test = require('tape')
-var hyperx = require('../')
-var hx = hyperx(createElement)
-var hxc = hyperx(createElement, {comments: true})
+import hyperx from '../index.js'
+import test   from 'tape'
+
+
+const hx = hyperx(createElement)
+const hxc = hyperx(createElement, {comments: true})
 
 function createElement(tag, props, children) {
   if (tag === '!--') {
@@ -11,30 +13,30 @@ function createElement(tag, props, children) {
 }
 
 test('1 comment', function (t) {
-  var tree = hxc`<!-- test -->`
+  const tree = hxc`<!-- test -->`
   t.equal(tree, '<!-- test -->')
   t.end()
 })
 
 test('with crazy characters', function (t) {
-  var tree = hxc`<!-- .-_<>|[]{}"' -->`
+  const tree = hxc`<!-- .-_<>|[]{}"' -->`
   t.equal(tree, '<!-- .-_<>|[]{}"\' -->')
   t.end()
 })
 
 test('as child', function (t) {
-  var tree = hxc`<div><!-- child --></div>`
+  const tree = hxc`<div><!-- child --></div>`
   t.equal(tree, '<div><!-- child --></div>')
   t.end()
 })
 
 test('many comments', function (t) {
-  var html = `<div>
+  const html = `<div>
     <!-- foo -->
     <span>bar</span>
     <!-- baz -->
   </div>`
-  var tree = hxc`
+  const tree = hxc`
   <div>
     <!-- foo -->
     <span>bar</span>
@@ -45,18 +47,18 @@ test('many comments', function (t) {
 })
 
 test('excluded by default', function (t) {
-  var tree = hx`<div><!-- comment --></div>`
+  const tree = hx`<div><!-- comment --></div>`
   t.equal(tree, '<div></div>')
   t.end()
 })
 
 test('template parts in comment, discard comments', function (t) {
-  var child = 'something'
-  var objectChild = {
+  const child = 'something'
+  const objectChild = {
     type: 'div',
     children: ['something']
   }
-  var tree = hx`<div><!-- abc ${child} def --></div>`
+  let tree = hx`<div><!-- abc ${child} def --></div>`
   t.equal(tree, '<div></div>')
   tree = hx`<div><!-- abc ${objectChild} def --></div>`
   t.equal(tree, '<div></div>')
@@ -64,12 +66,12 @@ test('template parts in comment, discard comments', function (t) {
 })
 
 test('template parts in comment, keep comments', function (t) {
-  var child = 'something'
-  var objectChild = {
+  const child = 'something'
+  const objectChild = {
     type: 'div',
     children: ['something']
   }
-  var tree = hxc`<div><!-- abc ${child} def --></div>`
+  let tree = hxc`<div><!-- abc ${child} def --></div>`
   t.equal(tree, '<div><!-- abc something def --></div>')
   tree = hxc`<div><!-- abc ${objectChild} def --></div>`
   t.equal(tree, '<div><!-- abc [object Object] def --></div>', 'stringifies comment contents')

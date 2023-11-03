@@ -1,4 +1,6 @@
-var vdom = require('virtual-dom')
+import vdom   from 'virtual-dom'
+
+
 var h = vdom.h
 
 function render (state) {

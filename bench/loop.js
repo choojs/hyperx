@@ -1,6 +1,8 @@
-var vdom = require('virtual-dom')
-var hyperx = require('../')
-var hx = hyperx(vdom.h)
+import hyperx from '../index.js'
+import vdom   from 'virtual-dom'
+
+
+const hx = hyperx(vdom.h)
 
 function render (state) {
   return hx`<div>

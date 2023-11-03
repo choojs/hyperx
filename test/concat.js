@@ -1,7 +1,9 @@
-var test = require('tape')
-var vdom = require('virtual-dom')
-var hyperx = require('../')
-var hx = hyperx(function (tagName, opts, children) {
+import hyperx from '../index.js'
+import test   from 'tape'
+import vdom   from 'virtual-dom'
+
+
+const hx = hyperx(function (tagName, opts, children) {
   return {
     expr: 'h(' + JSON.stringify(tagName)
       + ',' + JSON.stringify(opts)
@@ -17,7 +19,7 @@ var hx = hyperx(function (tagName, opts, children) {
 
 function concat (a, b) {
   if (!a.expr && !b.expr) return String(a) + String(b)
-  var aexpr, bexpr
+  let aexpr, bexpr
   if (a.expr) aexpr = '(' + a.expr + ')'
   else aexpr = JSON.stringify(a)
   if (b.expr) bexpr = '(' + b.expr + ')'
@@ -25,7 +27,7 @@ function concat (a, b) {
   return { expr: aexpr + '+' + bexpr }
 }
 
-var expected = `<div>
+const expected = `<div>
     <h1 y="ab3cd">hello world!</h1>
     <i>cool</i>
     wow
@@ -33,9 +35,9 @@ var expected = `<div>
   </div>`
 
 test('vdom', function (t) {
-  var title = 'world'
-  var wow = [1,2,3]
-  var str = hx`<div>
+  const title = 'world'
+  const wow = [1,2,3]
+  const str = hx`<div>
     <h1 y="ab${1+2}cd">hello ${title}!</h1>
     ${hx`<i>cool</i>`}
     wow
@@ -43,7 +45,7 @@ test('vdom', function (t) {
       return hx`<b>${w}</b>\n`
     })}
   </div>`.expr
-  var tree = Function(['h'],'return ' + str)(vdom.h)
+  const tree = Function(['h'],'return ' + str)(vdom.h)
   t.equal(vdom.create(tree).toString(), expected)
   t.end()
 })

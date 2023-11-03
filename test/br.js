@@ -1,10 +1,12 @@
-var test = require('tape')
-var vdom = require('virtual-dom')
-var hyperx = require('../')
-var hx = hyperx(vdom.h)
+import hyperx from '../index.js'
+import test   from 'tape'
+import vdom   from 'virtual-dom'
+
+
+const hx = hyperx(vdom.h)
 
 test('self closing tags without a space', function (t) {
-  var tree = hx`<div>a<br/>b<img src="boop"/></div>`
+  const tree = hx`<div>a<br/>b<img src="boop"/></div>`
   t.equal(vdom.create(tree).toString(), '<div>a<br />b<img src="boop" /></div>')
   t.end()
 })
