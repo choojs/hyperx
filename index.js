@@ -1,3 +1,4 @@
+'use strict'
 var attrToProp = require('hyperscript-attribute-to-property')
 
 
